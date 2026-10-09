@@ -15,7 +15,7 @@ by_country as (
         min(country_name) as country_name,
         min(region) as region,
         count(*) as suppliers,
-        sum(sites) as sites
+        cast(sum(sites) as bigint) as sites
     from pairs
     group by edition, fiscal_year, layout, country_iso3
 ),
@@ -23,8 +23,8 @@ by_country as (
 edition_totals as (
     select
         edition,
-        sum(suppliers) as total_pairs,
-        sum(sites) as total_sites
+        cast(sum(suppliers) as bigint) as total_pairs,
+        cast(sum(sites) as bigint) as total_sites
     from by_country
     group by edition
 )

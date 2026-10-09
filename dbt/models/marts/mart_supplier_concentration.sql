@@ -19,8 +19,8 @@ supplier_stats as (
     select
         edition,
         count(*) as n_suppliers,
-        sum(case when n_countries = 1 then 1 else 0 end) as single_country_suppliers,
-        sum(case when n_countries = 1 and only_country = 'CHN' then 1 else 0 end) as china_only_suppliers,
+        cast(sum(case when n_countries = 1 then 1 else 0 end) as bigint) as single_country_suppliers,
+        cast(sum(case when n_countries = 1 and only_country = 'CHN' then 1 else 0 end) as bigint) as china_only_suppliers,
         avg(cast(n_countries as double)) as avg_countries_per_supplier
     from suppliers
     group by edition
@@ -32,8 +32,8 @@ hhi as (
         min(fiscal_year) as fiscal_year,
         min(layout) as layout,
         count(*) as n_countries,
-        sum(suppliers) as n_pairs,
-        sum(sites) as n_sites,
+        cast(sum(suppliers) as bigint) as n_pairs,
+        cast(sum(sites) as bigint) as n_sites,
         sum(pair_share * pair_share) as hhi_pairs,
         sum(site_share * site_share) as hhi_sites,
         max(case when rank_by_suppliers = 1 then country_iso3 end) as top_country_iso3,

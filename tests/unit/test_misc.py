@@ -84,3 +84,21 @@ def test_report_helpers():
     assert _fmt(0.1234, "pct") == "12.3%" and _fmt(None) == "-"
     svg = line_chart({"A": [(2020, 1.0), (2021, 2.0)]}, kind="days", y_label="d")
     assert "<title>A · 2021: 2.0</title>" in svg
+
+
+def test_iceberg_write_is_idempotent_and_survives_schema_change(tmp_path, monkeypatch):
+    import pyarrow as pa
+
+    from apple_supply_chain.lakehouse.iceberg import build_catalog, read_table, write_table
+
+    monkeypatch.setenv("ASC_DATA_DIR", str(tmp_path))
+    monkeypatch.delenv("ASC_STORE", raising=False)
+    catalog = build_catalog(Settings.from_env())
+    t = pa.table({"x": pa.array([1, 2], pa.int64())})
+    first = write_table(catalog, "gold.t", t)
+    second = write_table(catalog, "gold.t", t)
+    assert read_table(catalog, "gold.t").num_rows == 2
+    assert second["snapshots"] > first["snapshots"]
+    changed = pa.table({"x": pa.array([1.5], pa.float64()), "y": ["a"]})
+    write_table(catalog, "gold.t", changed)
+    assert read_table(catalog, "gold.t").column_names == ["x", "y"]

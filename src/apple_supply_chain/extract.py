@@ -186,7 +186,7 @@ def extract_comtrade(settings: Settings, store: ObjectStore, fetcher: Fetcher) -
             params = comtrade.request_params(
                 dataset, year, settings.trade_reporters, settings.trade_commodities
             )
-            payload = comtrade.fetch(fetcher, params)
+            payload = comtrade.canonical(comtrade.fetch(fetcher, params))
             comtrade.parse(payload, dataset=dataset)  # validate before landing
             url = (
                 comtrade.PREVIEW_URL + "?" + "&".join(f"{k}={v}" for k, v in sorted(params.items()))

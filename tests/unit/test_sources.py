@@ -258,3 +258,9 @@ def test_census_request_includes_key_param():
 def test_make_pdf_is_a_pdf():
     pdf = make_pdf([[("text", 10, 10, 9, "hello (world)")]])
     assert pdf.startswith(b"%PDF-1.4") and pdf.rstrip().endswith(b"%%EOF")
+
+
+def test_comtrade_canonical_ignores_elapsed_time():
+    a = b'{"elapsedTime": "0.25 secs", "count": 0, "data": [], "error": ""}'
+    b = b'{"error": "", "data": [], "count": 0, "elapsedTime": "1.03 secs"}'
+    assert comtrade.canonical(a) == comtrade.canonical(b)

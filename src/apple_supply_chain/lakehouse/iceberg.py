@@ -67,17 +67,19 @@ def write_table(
     """Create-or-overwrite ``identifier`` with ``table``; returns snapshot info."""
     namespace = identifier.split(".", 1)[0]
     catalog.create_namespace_if_not_exists(namespace)
+    props = {"asc.run-id": run_id or "manual", "asc.written-at": datetime.now(UTC).isoformat()}
     try:
         ice = catalog.load_table(identifier)
-        if [f.name for f in ice.schema().fields] != table.schema.names:
-            # Schema changed (new column etc.): rebuild. Raw is the source of truth, so a
-            # rebuild loses nothing; snapshots of the old layout are dropped with it.
-            catalog.drop_table(identifier)
-            ice = catalog.create_table(identifier, schema=table.schema)
     except NoSuchTableError:
         ice = catalog.create_table(identifier, schema=table.schema)
-    props = {"asc.run-id": run_id or "manual", "asc.written-at": datetime.now(UTC).isoformat()}
-    ice.overwrite(table, snapshot_properties=props)
+    try:
+        ice.overwrite(table, snapshot_properties=props)
+    except ValueError:
+        # Schema changed (new column or type): rebuild the table. Raw is the source of truth,
+        # so a rebuild loses nothing; snapshots of the old layout are dropped with it.
+        catalog.drop_table(identifier)
+        ice = catalog.create_table(identifier, schema=table.schema)
+        ice.overwrite(table, snapshot_properties=props)
     ice = catalog.load_table(identifier)
     snap = ice.current_snapshot()
     return {

@@ -55,6 +55,20 @@ def fetch(fetcher: Fetcher, params: dict) -> bytes:
     return fetcher.get(PREVIEW_URL, params=params)
 
 
+VOLATILE_FIELDS = ("elapsedTime",)
+
+
+def canonical(payload: bytes) -> bytes:
+    """Drop per-request fields (``elapsedTime``) so identical data hashes identically.
+
+    Without this every weekly run would land a "new" raw object for unchanged data.
+    """
+    doc = json.loads(payload)
+    for key in VOLATILE_FIELDS:
+        doc.pop(key, None)
+    return json.dumps(doc, sort_keys=True, separators=(",", ":")).encode()
+
+
 class ComtradeError(RuntimeError):
     pass
 
