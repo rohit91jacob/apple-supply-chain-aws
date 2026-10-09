@@ -1,0 +1,951 @@
+{
+  "compared": 114,
+  "matched": 114,
+  "mismatches": [],
+  "comparisons": [
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2023-q4/FY23_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2022,
+      "line_item": "accounts_payable",
+      "published": 64115.0,
+      "pipeline": 64115.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2023-q4/FY23_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2022,
+      "line_item": "accounts_receivable",
+      "published": 28184.0,
+      "pipeline": 28184.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2023-q4/FY23_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2022,
+      "line_item": "capex",
+      "published": 10708.0,
+      "pipeline": 10708.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2023-q4/FY23_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2022,
+      "line_item": "category:Mac",
+      "published": 40177.0,
+      "pipeline": 40177.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2023-q4/FY23_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2022,
+      "line_item": "category:Services",
+      "published": 78129.0,
+      "pipeline": 78129.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2023-q4/FY23_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2022,
+      "line_item": "category:Wearables, Home and Accessories",
+      "published": 41241.0,
+      "pipeline": 41241.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2023-q4/FY23_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2022,
+      "line_item": "category:iPad",
+      "published": 29292.0,
+      "pipeline": 29292.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2023-q4/FY23_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2022,
+      "line_item": "category:iPhone",
+      "published": 205489.0,
+      "pipeline": 205489.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2023-q4/FY23_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2022,
+      "line_item": "cost_of_sales",
+      "published": 223546.0,
+      "pipeline": 223546.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2023-q4/FY23_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2022,
+      "line_item": "gross_margin",
+      "published": 170782.0,
+      "pipeline": 170782.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2023-q4/FY23_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2022,
+      "line_item": "inventory",
+      "published": 4946.0,
+      "pipeline": 4946.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2023-q4/FY23_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2022,
+      "line_item": "net_sales",
+      "published": 394328.0,
+      "pipeline": 394328.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2023-q4/FY23_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2022,
+      "line_item": "ppe_net",
+      "published": 42117.0,
+      "pipeline": 42117.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2023-q4/FY23_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2022,
+      "line_item": "segment:Americas",
+      "published": 169658.0,
+      "pipeline": 169658.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2023-q4/FY23_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2022,
+      "line_item": "segment:Europe",
+      "published": 95118.0,
+      "pipeline": 95118.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2023-q4/FY23_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2022,
+      "line_item": "segment:Greater China",
+      "published": 74200.0,
+      "pipeline": 74200.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2023-q4/FY23_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2022,
+      "line_item": "segment:Japan",
+      "published": 25977.0,
+      "pipeline": 25977.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2023-q4/FY23_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2022,
+      "line_item": "segment:Rest of Asia Pacific",
+      "published": 29375.0,
+      "pipeline": 29375.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2023-q4/FY23_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2022,
+      "line_item": "vendor_nontrade_receivables",
+      "published": 32748.0,
+      "pipeline": 32748.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2023-q4/FY23_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2023,
+      "line_item": "accounts_payable",
+      "published": 62611.0,
+      "pipeline": 62611.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2023-q4/FY23_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2023,
+      "line_item": "accounts_receivable",
+      "published": 29508.0,
+      "pipeline": 29508.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2023-q4/FY23_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2023,
+      "line_item": "capex",
+      "published": 10959.0,
+      "pipeline": 10959.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2023-q4/FY23_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2023,
+      "line_item": "category:Mac",
+      "published": 29357.0,
+      "pipeline": 29357.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2023-q4/FY23_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2023,
+      "line_item": "category:Services",
+      "published": 85200.0,
+      "pipeline": 85200.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2023-q4/FY23_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2023,
+      "line_item": "category:Wearables, Home and Accessories",
+      "published": 39845.0,
+      "pipeline": 39845.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2023-q4/FY23_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2023,
+      "line_item": "category:iPad",
+      "published": 28300.0,
+      "pipeline": 28300.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2023-q4/FY23_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2023,
+      "line_item": "category:iPhone",
+      "published": 200583.0,
+      "pipeline": 200583.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2023-q4/FY23_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2023,
+      "line_item": "cost_of_sales",
+      "published": 214137.0,
+      "pipeline": 214137.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2023-q4/FY23_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2023,
+      "line_item": "gross_margin",
+      "published": 169148.0,
+      "pipeline": 169148.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2023-q4/FY23_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2023,
+      "line_item": "inventory",
+      "published": 6331.0,
+      "pipeline": 6331.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2023-q4/FY23_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2023,
+      "line_item": "net_sales",
+      "published": 383285.0,
+      "pipeline": 383285.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2023-q4/FY23_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2023,
+      "line_item": "ppe_net",
+      "published": 43715.0,
+      "pipeline": 43715.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2023-q4/FY23_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2023,
+      "line_item": "segment:Americas",
+      "published": 162560.0,
+      "pipeline": 162560.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2023-q4/FY23_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2023,
+      "line_item": "segment:Europe",
+      "published": 94294.0,
+      "pipeline": 94294.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2023-q4/FY23_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2023,
+      "line_item": "segment:Greater China",
+      "published": 72559.0,
+      "pipeline": 72559.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2023-q4/FY23_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2023,
+      "line_item": "segment:Japan",
+      "published": 24257.0,
+      "pipeline": 24257.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2023-q4/FY23_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2023,
+      "line_item": "segment:Rest of Asia Pacific",
+      "published": 29615.0,
+      "pipeline": 29615.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2023-q4/FY23_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2023,
+      "line_item": "vendor_nontrade_receivables",
+      "published": 31477.0,
+      "pipeline": 31477.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2023,
+      "line_item": "accounts_payable",
+      "published": 62611.0,
+      "pipeline": 62611.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2023,
+      "line_item": "accounts_receivable",
+      "published": 29508.0,
+      "pipeline": 29508.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2023,
+      "line_item": "capex",
+      "published": 10959.0,
+      "pipeline": 10959.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2023,
+      "line_item": "category:Mac",
+      "published": 29357.0,
+      "pipeline": 29357.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2023,
+      "line_item": "category:Services",
+      "published": 85200.0,
+      "pipeline": 85200.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2023,
+      "line_item": "category:Wearables, Home and Accessories",
+      "published": 39845.0,
+      "pipeline": 39845.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2023,
+      "line_item": "category:iPad",
+      "published": 28300.0,
+      "pipeline": 28300.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2023,
+      "line_item": "category:iPhone",
+      "published": 200583.0,
+      "pipeline": 200583.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2023,
+      "line_item": "cost_of_sales",
+      "published": 214137.0,
+      "pipeline": 214137.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2023,
+      "line_item": "gross_margin",
+      "published": 169148.0,
+      "pipeline": 169148.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2023,
+      "line_item": "inventory",
+      "published": 6331.0,
+      "pipeline": 6331.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2023,
+      "line_item": "net_sales",
+      "published": 383285.0,
+      "pipeline": 383285.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2023,
+      "line_item": "ppe_net",
+      "published": 43715.0,
+      "pipeline": 43715.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2023,
+      "line_item": "segment:Americas",
+      "published": 162560.0,
+      "pipeline": 162560.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2023,
+      "line_item": "segment:Europe",
+      "published": 94294.0,
+      "pipeline": 94294.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2023,
+      "line_item": "segment:Greater China",
+      "published": 72559.0,
+      "pipeline": 72559.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2023,
+      "line_item": "segment:Japan",
+      "published": 24257.0,
+      "pipeline": 24257.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2023,
+      "line_item": "segment:Rest of Asia Pacific",
+      "published": 29615.0,
+      "pipeline": 29615.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2023,
+      "line_item": "vendor_nontrade_receivables",
+      "published": 31477.0,
+      "pipeline": 31477.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2024,
+      "line_item": "accounts_payable",
+      "published": 68960.0,
+      "pipeline": 68960.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2024,
+      "line_item": "accounts_receivable",
+      "published": 33410.0,
+      "pipeline": 33410.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2024,
+      "line_item": "capex",
+      "published": 9447.0,
+      "pipeline": 9447.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2024,
+      "line_item": "category:Mac",
+      "published": 29984.0,
+      "pipeline": 29984.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2024,
+      "line_item": "category:Services",
+      "published": 96169.0,
+      "pipeline": 96169.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2024,
+      "line_item": "category:Wearables, Home and Accessories",
+      "published": 37005.0,
+      "pipeline": 37005.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2024,
+      "line_item": "category:iPad",
+      "published": 26694.0,
+      "pipeline": 26694.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2024,
+      "line_item": "category:iPhone",
+      "published": 201183.0,
+      "pipeline": 201183.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2024,
+      "line_item": "cost_of_sales",
+      "published": 210352.0,
+      "pipeline": 210352.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2024,
+      "line_item": "gross_margin",
+      "published": 180683.0,
+      "pipeline": 180683.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2024,
+      "line_item": "inventory",
+      "published": 7286.0,
+      "pipeline": 7286.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2024,
+      "line_item": "net_sales",
+      "published": 391035.0,
+      "pipeline": 391035.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2024,
+      "line_item": "ppe_net",
+      "published": 45680.0,
+      "pipeline": 45680.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2024,
+      "line_item": "segment:Americas",
+      "published": 167045.0,
+      "pipeline": 167045.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2024,
+      "line_item": "segment:Europe",
+      "published": 101328.0,
+      "pipeline": 101328.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2024,
+      "line_item": "segment:Greater China",
+      "published": 66952.0,
+      "pipeline": 66952.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2024,
+      "line_item": "segment:Japan",
+      "published": 25052.0,
+      "pipeline": 25052.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2024,
+      "line_item": "segment:Rest of Asia Pacific",
+      "published": 30658.0,
+      "pipeline": 30658.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2024,
+      "line_item": "vendor_nontrade_receivables",
+      "published": 32833.0,
+      "pipeline": 32833.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2025-q4/FY25_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2024,
+      "line_item": "accounts_payable",
+      "published": 68960.0,
+      "pipeline": 68960.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2025-q4/FY25_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2024,
+      "line_item": "accounts_receivable",
+      "published": 33410.0,
+      "pipeline": 33410.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2025-q4/FY25_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2024,
+      "line_item": "capex",
+      "published": 9447.0,
+      "pipeline": 9447.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2025-q4/FY25_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2024,
+      "line_item": "category:Mac",
+      "published": 29984.0,
+      "pipeline": 29984.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2025-q4/FY25_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2024,
+      "line_item": "category:Services",
+      "published": 96169.0,
+      "pipeline": 96169.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2025-q4/FY25_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2024,
+      "line_item": "category:Wearables, Home and Accessories",
+      "published": 37005.0,
+      "pipeline": 37005.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2025-q4/FY25_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2024,
+      "line_item": "category:iPad",
+      "published": 26694.0,
+      "pipeline": 26694.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2025-q4/FY25_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2024,
+      "line_item": "category:iPhone",
+      "published": 201183.0,
+      "pipeline": 201183.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2025-q4/FY25_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2024,
+      "line_item": "cost_of_sales",
+      "published": 210352.0,
+      "pipeline": 210352.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2025-q4/FY25_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2024,
+      "line_item": "gross_margin",
+      "published": 180683.0,
+      "pipeline": 180683.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2025-q4/FY25_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2024,
+      "line_item": "inventory",
+      "published": 7286.0,
+      "pipeline": 7286.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2025-q4/FY25_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2024,
+      "line_item": "net_sales",
+      "published": 391035.0,
+      "pipeline": 391035.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2025-q4/FY25_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2024,
+      "line_item": "ppe_net",
+      "published": 45680.0,
+      "pipeline": 45680.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2025-q4/FY25_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2024,
+      "line_item": "segment:Americas",
+      "published": 167045.0,
+      "pipeline": 167045.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2025-q4/FY25_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2024,
+      "line_item": "segment:Europe",
+      "published": 101328.0,
+      "pipeline": 101328.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2025-q4/FY25_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2024,
+      "line_item": "segment:Greater China",
+      "published": 66952.0,
+      "pipeline": 66952.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2025-q4/FY25_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2024,
+      "line_item": "segment:Japan",
+      "published": 25052.0,
+      "pipeline": 25052.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2025-q4/FY25_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2024,
+      "line_item": "segment:Rest of Asia Pacific",
+      "published": 30658.0,
+      "pipeline": 30658.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2025-q4/FY25_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2024,
+      "line_item": "vendor_nontrade_receivables",
+      "published": 32833.0,
+      "pipeline": 32833.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2025-q4/FY25_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2025,
+      "line_item": "accounts_payable",
+      "published": 69860.0,
+      "pipeline": 69860.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2025-q4/FY25_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2025,
+      "line_item": "accounts_receivable",
+      "published": 39777.0,
+      "pipeline": 39777.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2025-q4/FY25_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2025,
+      "line_item": "capex",
+      "published": 12715.0,
+      "pipeline": 12715.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2025-q4/FY25_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2025,
+      "line_item": "category:Mac",
+      "published": 33708.0,
+      "pipeline": 33708.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2025-q4/FY25_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2025,
+      "line_item": "category:Services",
+      "published": 109158.0,
+      "pipeline": 109158.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2025-q4/FY25_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2025,
+      "line_item": "category:Wearables, Home and Accessories",
+      "published": 35686.0,
+      "pipeline": 35686.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2025-q4/FY25_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2025,
+      "line_item": "category:iPad",
+      "published": 28023.0,
+      "pipeline": 28023.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2025-q4/FY25_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2025,
+      "line_item": "category:iPhone",
+      "published": 209586.0,
+      "pipeline": 209586.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2025-q4/FY25_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2025,
+      "line_item": "cost_of_sales",
+      "published": 220960.0,
+      "pipeline": 220960.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2025-q4/FY25_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2025,
+      "line_item": "gross_margin",
+      "published": 195201.0,
+      "pipeline": 195201.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2025-q4/FY25_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2025,
+      "line_item": "inventory",
+      "published": 5718.0,
+      "pipeline": 5718.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2025-q4/FY25_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2025,
+      "line_item": "net_sales",
+      "published": 416161.0,
+      "pipeline": 416161.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2025-q4/FY25_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2025,
+      "line_item": "ppe_net",
+      "published": 49834.0,
+      "pipeline": 49834.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2025-q4/FY25_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2025,
+      "line_item": "segment:Americas",
+      "published": 178353.0,
+      "pipeline": 178353.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2025-q4/FY25_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2025,
+      "line_item": "segment:Europe",
+      "published": 111032.0,
+      "pipeline": 111032.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2025-q4/FY25_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2025,
+      "line_item": "segment:Greater China",
+      "published": 64377.0,
+      "pipeline": 64377.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2025-q4/FY25_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2025,
+      "line_item": "segment:Japan",
+      "published": 28703.0,
+      "pipeline": 28703.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2025-q4/FY25_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2025,
+      "line_item": "segment:Rest of Asia Pacific",
+      "published": 33696.0,
+      "pipeline": 33696.0,
+      "matched": true
+    },
+    {
+      "document": "https://www.apple.com/newsroom/pdfs/fy2025-q4/FY25_Q4_Consolidated_Financial_Statements.pdf",
+      "fiscal_year": 2025,
+      "line_item": "vendor_nontrade_receivables",
+      "published": 33180.0,
+      "pipeline": 33180.0,
+      "matched": true
+    }
+  ],
+  "supplier_count_checks": [
+    {
+      "edition": 2014,
+      "published_statement": "top 200 suppliers",
+      "pipeline_suppliers": 200,
+      "matched": true
+    },
+    {
+      "edition": 2015,
+      "published_statement": "top 200 suppliers",
+      "pipeline_suppliers": 200,
+      "matched": true
+    },
+    {
+      "edition": 2017,
+      "published_statement": "top 200 suppliers",
+      "pipeline_suppliers": 201,
+      "matched": false
+    },
+    {
+      "edition": 2018,
+      "published_statement": "top 200 suppliers",
+      "pipeline_suppliers": 200,
+      "matched": true
+    },
+    {
+      "edition": 2019,
+      "published_statement": "top 200 suppliers",
+      "pipeline_suppliers": 200,
+      "matched": true
+    }
+  ]
+}
