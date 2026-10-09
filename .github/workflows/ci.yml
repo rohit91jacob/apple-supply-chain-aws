@@ -1,0 +1,194 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Fail if uv.lock is out of date instead of silently re-locking.
+  UV_LOCKED: "1"
+  PYTHON_VERSION: "3.12"
+  TERRAFORM_VERSION: "1.16.5"
+  TFLINT_VERSION: "v0.64.0"
+
+jobs:
+  lint:
+    name: lint, lockfile, secrets
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          enable-cache: true
+      - name: uv.lock is in sync with pyproject.toml
+        run: uv lock --check
+      - run: uv sync --only-group dev --no-install-project
+      - name: ruff check
+        run: uv run --no-sync ruff check --output-format=github .
+      - name: ruff format
+        run: uv run --no-sync ruff format --check .
+      - name: gitleaks (full history)
+        run: >-
+          docker run --rm --user "$(id -u):$(id -g)" -v "$PWD:/repo"
+          ghcr.io/gitleaks/gitleaks:v8.30.1 git /repo --redact --verbose
+
+  unit:
+    name: unit tests (incl. moto S3 / Glue / Step Functions)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          enable-cache: true
+      - run: uv sync --frozen
+      - run: uv run pytest tests/unit --cov --cov-report=term --cov-report=xml
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: coverage-unit
+          path: coverage.xml
+
+  pipeline:
+    name: pipeline on fixtures (Step Functions ASL + dbt build) and rerun idempotency
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      ASC_DATA_DIR: /tmp/asc/data
+      ASC_SOURCE_MODE: fixtures
+      ASC_FIXTURES_DIR: /tmp/asc/fixtures
+      ASC_TRADE_YEARS: 2022-2024
+      ASC_DUCKDB_PATH: /tmp/asc/data/warehouse/asc.duckdb
+      DBT_TARGET: ci
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          enable-cache: true
+      - run: uv sync --frozen
+      - name: Assemble fixtures (real SEC + SYNTHETIC supplier PDFs and Comtrade)
+        run: uv run asc fixtures --out "$ASC_FIXTURES_DIR"
+      - name: Run the state machine locally (exit 3 = data-quality failure)
+        run: uv run asc pipeline --run-id ci-1
+      - name: dbt build on the same warehouse (models + tests)
+        working-directory: dbt
+        run: uv run dbt build --profiles-dir . --target ci
+      - name: Rerun - must download nothing new and produce identical marts
+        run: uv run asc pipeline --run-id ci-2
+      - name: End-to-end tests (pipeline, idempotency, DQ failure path)
+        run: uv run pytest -m e2e tests/e2e
+      - name: Results site from fixtures
+        run: uv run asc report --out site
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: fixture-site-and-run-history
+          path: |
+            site
+            /tmp/asc/data/runs
+
+  dbt-athena:
+    name: dbt compile for the Athena target (no AWS access)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          enable-cache: true
+      - run: uv sync --frozen --group athena
+      - name: Compile (every AWS call goes to an in-process moto server)
+        run: uv run python scripts/dbt_compile_athena.py
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: athena-compiled-sql
+          path: dbt/target/compiled
+
+  terraform:
+    name: terraform fmt / validate / tflint / checkov
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: hashicorp/setup-terraform@dfe3c3f87815947d99a8997f908cb6525fc44e9e # v4.0.1
+        with:
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
+      - name: terraform fmt
+        run: terraform -chdir=infra fmt -check -recursive
+      - name: terraform validate (no backend, no credentials)
+        run: |
+          terraform -chdir=infra/envs/dev init -backend=false -input=false
+          terraform -chdir=infra/envs/dev validate
+      - uses: terraform-linters/setup-tflint@6ffdbaa3be476b3431f7275c26966ef32ff60337 # v6.3.2
+        with:
+          tflint_version: ${{ env.TFLINT_VERSION }}
+      - name: tflint
+        working-directory: infra
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          tflint --init
+          tflint --recursive --config "$PWD/.tflint.hcl"
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: checkov (skips are justified inline)
+        run: uvx --from "checkov==3.3.26" checkov -d infra --framework terraform --quiet --compact
+
+  localstack:
+    name: LocalStack integration (S3 raw zone + Iceberg on S3 + Step Functions)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    services:
+      localstack:
+        image: localstack/localstack:4.14.0@sha256:3ebc37595918b8accb852f8048fef2aff047d465167edd655528065b07bc364a
+        ports:
+          - 4566:4566
+        env:
+          SERVICES: s3,stepfunctions,iam,sts
+        options: >-
+          --health-cmd "curl -sf http://localhost:4566/_localstack/health"
+          --health-interval 5s --health-timeout 5s --health-retries 30
+    env:
+      AWS_ENDPOINT_URL: http://localhost:4566
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+      AWS_DEFAULT_REGION: eu-west-1
+      AWS_REGION: eu-west-1
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          enable-cache: true
+      - run: uv sync --frozen
+      - name: Pipeline with ASC_STORE=s3 against LocalStack, then the state machine definition
+        run: uv run pytest -m localstack tests/integration/test_localstack.py -v
+
+  image:
+    name: Lambda container image builds (arm64)
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      - name: Build (not pushed)
+        run: docker buildx build -f docker/lambda.Dockerfile -t apple-supply-chain-aws:ci --load .
+      - name: Handlers import inside the image
+        run: >-
+          docker run --rm --entrypoint python apple-supply-chain-aws:ci -c
+          "import apple_supply_chain.lambdas.handlers as h; print(sorted(h.FUNCTIONS))"

@@ -1,0 +1,121 @@
+name: refresh
+
+# Weekly data refresh on the real public sources, then publish the results site to GitHub
+# Pages. Cadence: Apple files a 10-Q or 10-K roughly every three months and the Supplier List
+# once a year; UN Comtrade annual data is revised over the year. Weekly picks up a new filing
+# within days, and the conditional, content-addressed raw zone (cached between runs) makes a
+# week without news cheap: immutable filings and archived PDFs are never re-downloaded.
+#
+# No credentials: SEC EDGAR, the Apple / Wayback PDFs and the Comtrade preview are keyless.
+# The US Census source is optional and only runs when the CENSUS_API_KEY secret exists.
+
+on:
+  schedule:
+    - cron: "17 7 * * 1" # Mondays 07:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: refresh
+  cancel-in-progress: false
+
+env:
+  UV_LOCKED: "1"
+  PYTHON_VERSION: "3.12"
+  ASC_DATA_DIR: /home/runner/asc-lake
+  ASC_SOURCE_MODE: live
+  ASC_LOG_FORMAT: json
+  # SEC requires a descriptive User-Agent with a contact; set the repository variable to yours.
+  SEC_USER_AGENT: ${{ vars.SEC_USER_AGENT || 'apple-supply-chain-aws admin@example.com' }}
+
+jobs:
+  build:
+    name: refresh lake + build site
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          enable-cache: true
+      - name: Restore the raw zone from the previous run
+        id: lake
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ env.ASC_DATA_DIR }}/lake/asc-raw
+          key: asc-raw-${{ github.run_id }}
+          restore-keys: asc-raw-
+      - run: uv sync --frozen
+      - name: Pipeline on the live sources (exit 3 = data-quality failure)
+        env:
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+        run: uv run asc pipeline --run-id "refresh-${{ github.run_id }}"
+      - name: Save the raw zone for the next run
+        if: always()
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ env.ASC_DATA_DIR }}/lake/asc-raw
+          key: asc-raw-${{ github.run_id }}
+      - name: Reconcile with Apple's published statements
+        id: verify
+        continue-on-error: true
+        run: uv run asc verify --out site-verification.json
+      - name: Build the results site
+        run: |
+          uv run asc report --out site
+          [ -f site-verification.json ] && cp site-verification.json site/verification.json
+          {
+            echo "### Results site"
+            echo '```json'
+            cat site/summary.json
+            echo '```'
+            echo "verification step: ${{ steps.verify.outcome }}"
+          } >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: site
+
+  deploy:
+    name: publish to GitHub Pages
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
+
+  alert:
+    name: open or update a failure issue
+    needs: [build, deploy]
+    if: failure() && github.event_name == 'schedule'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      issues: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      TITLE: Scheduled refresh is failing
+      RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+    steps:
+      - name: Open or comment on the tracking issue
+        run: |
+          body="The scheduled \`refresh\` run failed: $RUN_URL
+
+          See docs/runbook.md#scheduled-refresh-fails. Close this issue once a run is green."
+          number=$(gh issue list --state open --search "in:title \"$TITLE\"" --json number,title \
+            --jq "map(select(.title == \"$TITLE\")) | .[0].number // empty")
+          if [ -n "$number" ]; then
+            gh issue comment "$number" --body "Failed again: $RUN_URL"
+          else
+            gh issue create --title "$TITLE" --body "$body"
+          fi

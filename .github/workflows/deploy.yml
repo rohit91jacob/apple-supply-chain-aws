@@ -1,0 +1,65 @@
+name: deploy
+
+# Optional deployment of the pipeline image to a real AWS account. It is inert unless the
+# repository variable AWS_DEPLOY_ROLE_ARN is set (output `github_deploy_role_arn` of
+# infra/envs/dev), and it authenticates with GitHub OIDC - there are no static AWS keys.
+# Infrastructure itself is applied manually with Terraform (see docs/runbook.md).
+
+on:
+  workflow_dispatch:
+    inputs:
+      start_execution:
+        description: "Start the state machine after updating the functions"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: build, push and roll out the Lambda image
+    if: vars.AWS_DEPLOY_ROLE_ARN != ''
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 30
+    environment: aws-dev
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      AWS_REGION: ${{ vars.AWS_REGION || 'eu-west-1' }}
+      NAME_PREFIX: ${{ vars.ASC_NAME_PREFIX || 'asc-dev' }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+          role-session-name: github-${{ github.run_id }}
+      - id: ecr
+        uses: aws-actions/amazon-ecr-login@03f1aad4c6c7ffd436567f42f9384779290529bd # v2.1.7
+      - name: Build and push (immutable tag = commit SHA)
+        env:
+          IMAGE: ${{ steps.ecr.outputs.registry }}/${{ env.NAME_PREFIX }}-pipeline:${{ github.sha }}
+        run: |
+          docker build -f docker/lambda.Dockerfile -t "$IMAGE" .
+          docker push "$IMAGE"
+          echo "IMAGE=$IMAGE" >> "$GITHUB_ENV"
+      - name: Point every pipeline function at the new image
+        run: |
+          for fn in extract-sec-edgar extract-apple-supplier-list extract-un-comtrade extract-us-census \
+                    build-silver check-silver build-marts build-graph check-gold; do
+            aws lambda update-function-code --function-name "$NAME_PREFIX-$fn" --image-uri "$IMAGE" >/dev/null
+            aws lambda wait function-updated-v2 --function-name "$NAME_PREFIX-$fn"
+            echo "updated $NAME_PREFIX-$fn"
+          done
+      - name: Start a pipeline execution
+        if: inputs.start_execution
+        run: |
+          arn=$(aws stepfunctions list-state-machines \
+            --query "stateMachines[?name=='$NAME_PREFIX-pipeline'].stateMachineArn | [0]" --output text)
+          aws stepfunctions start-execution --state-machine-arn "$arn" --name "deploy-${{ github.run_id }}"
