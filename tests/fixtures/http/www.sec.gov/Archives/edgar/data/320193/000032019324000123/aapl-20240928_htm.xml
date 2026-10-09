@@ -1,0 +1,590 @@
+<?xml version='1.0' encoding='utf-8'?>
+<xbrli:xbrl xmlns:ns2="http://fasb.org/us-gaap/2024" xmlns:xbrldi="http://xbrl.org/2006/xbrldi" xmlns:xbrli="http://www.xbrl.org/2003/instance" xml:lang="en-US"><xbrli:context id="c-1">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2023-10-01</xbrli:startDate>
+            <xbrli:endDate>2024-09-28</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-13">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="srt:ProductOrServiceAxis">us-gaap:ProductMember</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2023-10-01</xbrli:startDate>
+            <xbrli:endDate>2024-09-28</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-14">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="srt:ProductOrServiceAxis">us-gaap:ProductMember</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2022-09-25</xbrli:startDate>
+            <xbrli:endDate>2023-09-30</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-15">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="srt:ProductOrServiceAxis">us-gaap:ProductMember</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2021-09-26</xbrli:startDate>
+            <xbrli:endDate>2022-09-24</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-16">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="srt:ProductOrServiceAxis">us-gaap:ServiceMember</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2023-10-01</xbrli:startDate>
+            <xbrli:endDate>2024-09-28</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-17">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="srt:ProductOrServiceAxis">us-gaap:ServiceMember</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2022-09-25</xbrli:startDate>
+            <xbrli:endDate>2023-09-30</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-18">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="srt:ProductOrServiceAxis">us-gaap:ServiceMember</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2021-09-26</xbrli:startDate>
+            <xbrli:endDate>2022-09-24</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-19">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2022-09-25</xbrli:startDate>
+            <xbrli:endDate>2023-09-30</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-20">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2021-09-26</xbrli:startDate>
+            <xbrli:endDate>2022-09-24</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-46">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="srt:ProductOrServiceAxis">aapl:IPhoneMember</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2023-10-01</xbrli:startDate>
+            <xbrli:endDate>2024-09-28</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-47">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="srt:ProductOrServiceAxis">aapl:IPhoneMember</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2022-09-25</xbrli:startDate>
+            <xbrli:endDate>2023-09-30</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-48">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="srt:ProductOrServiceAxis">aapl:IPhoneMember</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2021-09-26</xbrli:startDate>
+            <xbrli:endDate>2022-09-24</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-49">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="srt:ProductOrServiceAxis">aapl:MacMember</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2023-10-01</xbrli:startDate>
+            <xbrli:endDate>2024-09-28</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-50">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="srt:ProductOrServiceAxis">aapl:MacMember</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2022-09-25</xbrli:startDate>
+            <xbrli:endDate>2023-09-30</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-51">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="srt:ProductOrServiceAxis">aapl:MacMember</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2021-09-26</xbrli:startDate>
+            <xbrli:endDate>2022-09-24</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-52">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="srt:ProductOrServiceAxis">aapl:IPadMember</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2023-10-01</xbrli:startDate>
+            <xbrli:endDate>2024-09-28</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-53">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="srt:ProductOrServiceAxis">aapl:IPadMember</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2022-09-25</xbrli:startDate>
+            <xbrli:endDate>2023-09-30</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-54">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="srt:ProductOrServiceAxis">aapl:IPadMember</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2021-09-26</xbrli:startDate>
+            <xbrli:endDate>2022-09-24</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-55">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="srt:ProductOrServiceAxis">aapl:WearablesHomeandAccessoriesMember</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2023-10-01</xbrli:startDate>
+            <xbrli:endDate>2024-09-28</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-56">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="srt:ProductOrServiceAxis">aapl:WearablesHomeandAccessoriesMember</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2022-09-25</xbrli:startDate>
+            <xbrli:endDate>2023-09-30</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-57">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="srt:ProductOrServiceAxis">aapl:WearablesHomeandAccessoriesMember</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2021-09-26</xbrli:startDate>
+            <xbrli:endDate>2022-09-24</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-149">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">aapl:AmericasSegmentMember</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2023-10-01</xbrli:startDate>
+            <xbrli:endDate>2024-09-28</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-150">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">aapl:AmericasSegmentMember</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2022-09-25</xbrli:startDate>
+            <xbrli:endDate>2023-09-30</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-151">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">aapl:AmericasSegmentMember</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2021-09-26</xbrli:startDate>
+            <xbrli:endDate>2022-09-24</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-152">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">aapl:EuropeSegmentMember</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2023-10-01</xbrli:startDate>
+            <xbrli:endDate>2024-09-28</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-153">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">aapl:EuropeSegmentMember</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2022-09-25</xbrli:startDate>
+            <xbrli:endDate>2023-09-30</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-154">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">aapl:EuropeSegmentMember</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2021-09-26</xbrli:startDate>
+            <xbrli:endDate>2022-09-24</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-155">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">aapl:GreaterChinaSegmentMember</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2023-10-01</xbrli:startDate>
+            <xbrli:endDate>2024-09-28</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-156">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">aapl:GreaterChinaSegmentMember</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2022-09-25</xbrli:startDate>
+            <xbrli:endDate>2023-09-30</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-157">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">aapl:GreaterChinaSegmentMember</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2021-09-26</xbrli:startDate>
+            <xbrli:endDate>2022-09-24</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-158">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">aapl:JapanSegmentMember</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2023-10-01</xbrli:startDate>
+            <xbrli:endDate>2024-09-28</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-159">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">aapl:JapanSegmentMember</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2022-09-25</xbrli:startDate>
+            <xbrli:endDate>2023-09-30</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-160">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">aapl:JapanSegmentMember</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2021-09-26</xbrli:startDate>
+            <xbrli:endDate>2022-09-24</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-161">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">aapl:RestOfAsiaPacificSegmentMember</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2023-10-01</xbrli:startDate>
+            <xbrli:endDate>2024-09-28</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-162">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">aapl:RestOfAsiaPacificSegmentMember</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2022-09-25</xbrli:startDate>
+            <xbrli:endDate>2023-09-30</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-163">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">aapl:RestOfAsiaPacificSegmentMember</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2021-09-26</xbrli:startDate>
+            <xbrli:endDate>2022-09-24</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-173">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="srt:StatementGeographicalAxis">country:US</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2023-10-01</xbrli:startDate>
+            <xbrli:endDate>2024-09-28</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-174">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="srt:StatementGeographicalAxis">country:US</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2022-09-25</xbrli:startDate>
+            <xbrli:endDate>2023-09-30</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-175">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="srt:StatementGeographicalAxis">country:US</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2021-09-26</xbrli:startDate>
+            <xbrli:endDate>2022-09-24</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-176">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="srt:StatementGeographicalAxis">country:CN</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2023-10-01</xbrli:startDate>
+            <xbrli:endDate>2024-09-28</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-177">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="srt:StatementGeographicalAxis">country:CN</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2022-09-25</xbrli:startDate>
+            <xbrli:endDate>2023-09-30</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-178">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="srt:StatementGeographicalAxis">country:CN</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2021-09-26</xbrli:startDate>
+            <xbrli:endDate>2022-09-24</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-179">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="srt:StatementGeographicalAxis">aapl:OtherCountriesMember</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2023-10-01</xbrli:startDate>
+            <xbrli:endDate>2024-09-28</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-180">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="srt:StatementGeographicalAxis">aapl:OtherCountriesMember</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2022-09-25</xbrli:startDate>
+            <xbrli:endDate>2023-09-30</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:context id="c-181">
+        <xbrli:entity>
+            <xbrli:identifier scheme="http://www.sec.gov/CIK">0000320193</xbrli:identifier>
+            <xbrli:segment>
+                <xbrldi:explicitMember dimension="srt:StatementGeographicalAxis">aapl:OtherCountriesMember</xbrldi:explicitMember>
+            </xbrli:segment>
+        </xbrli:entity>
+        <xbrli:period>
+            <xbrli:startDate>2021-09-26</xbrli:startDate>
+            <xbrli:endDate>2022-09-24</xbrli:endDate>
+        </xbrli:period>
+    </xbrli:context>
+    <xbrli:unit id="usd">
+        <xbrli:measure>iso4217:USD</xbrli:measure>
+    </xbrli:unit>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-13" decimals="-6" id="f-60" unitRef="usd">294866000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-14" decimals="-6" id="f-61" unitRef="usd">298085000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-15" decimals="-6" id="f-62" unitRef="usd">316199000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-16" decimals="-6" id="f-63" unitRef="usd">96169000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-17" decimals="-6" id="f-64" unitRef="usd">85200000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-18" decimals="-6" id="f-65" unitRef="usd">78129000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-1" decimals="-6" id="f-66" unitRef="usd">391035000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-19" decimals="-6" id="f-67" unitRef="usd">383285000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-20" decimals="-6" id="f-68" unitRef="usd">394328000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-46" decimals="-6" id="f-363" unitRef="usd">201183000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-47" decimals="-6" id="f-364" unitRef="usd">200583000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-48" decimals="-6" id="f-365" unitRef="usd">205489000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-49" decimals="-6" id="f-366" unitRef="usd">29984000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-50" decimals="-6" id="f-367" unitRef="usd">29357000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-51" decimals="-6" id="f-368" unitRef="usd">40177000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-52" decimals="-6" id="f-369" unitRef="usd">26694000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-53" decimals="-6" id="f-370" unitRef="usd">28300000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-54" decimals="-6" id="f-371" unitRef="usd">29292000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-55" decimals="-6" id="f-372" unitRef="usd">37005000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-56" decimals="-6" id="f-373" unitRef="usd">39845000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-57" decimals="-6" id="f-374" unitRef="usd">41241000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-16" decimals="-6" id="f-375" unitRef="usd">96169000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-17" decimals="-6" id="f-376" unitRef="usd">85200000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-18" decimals="-6" id="f-377" unitRef="usd">78129000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-1" decimals="-6" id="f-378" unitRef="usd">391035000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-19" decimals="-6" id="f-379" unitRef="usd">383285000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-20" decimals="-6" id="f-380" unitRef="usd">394328000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-149" decimals="-6" id="f-1042" unitRef="usd">167045000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-150" decimals="-6" id="f-1043" unitRef="usd">162560000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-151" decimals="-6" id="f-1044" unitRef="usd">169658000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-152" decimals="-6" id="f-1048" unitRef="usd">101328000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-153" decimals="-6" id="f-1049" unitRef="usd">94294000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-154" decimals="-6" id="f-1050" unitRef="usd">95118000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-155" decimals="-6" id="f-1054" unitRef="usd">66952000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-156" decimals="-6" id="f-1055" unitRef="usd">72559000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-157" decimals="-6" id="f-1056" unitRef="usd">74200000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-158" decimals="-6" id="f-1060" unitRef="usd">25052000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-159" decimals="-6" id="f-1061" unitRef="usd">24257000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-160" decimals="-6" id="f-1062" unitRef="usd">25977000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-161" decimals="-6" id="f-1066" unitRef="usd">30658000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-162" decimals="-6" id="f-1067" unitRef="usd">29615000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-163" decimals="-6" id="f-1068" unitRef="usd">29375000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-173" decimals="-6" id="f-1086" unitRef="usd">142196000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-174" decimals="-6" id="f-1087" unitRef="usd">138573000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-175" decimals="-6" id="f-1088" unitRef="usd">147859000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-176" decimals="-6" id="f-1089" unitRef="usd">66952000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-177" decimals="-6" id="f-1090" unitRef="usd">72559000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-178" decimals="-6" id="f-1091" unitRef="usd">74200000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-179" decimals="-6" id="f-1092" unitRef="usd">181887000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-180" decimals="-6" id="f-1093" unitRef="usd">172153000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-181" decimals="-6" id="f-1094" unitRef="usd">172269000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-1" decimals="-6" id="f-1095" unitRef="usd">391035000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-19" decimals="-6" id="f-1096" unitRef="usd">383285000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    <ns2:RevenueFromContractWithCustomerExcludingAssessedTax contextRef="c-20" decimals="-6" id="f-1097" unitRef="usd">394328000000</ns2:RevenueFromContractWithCustomerExcludingAssessedTax>
+    </xbrli:xbrl>

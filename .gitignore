@@ -12,7 +12,7 @@ coverage.xml
 htmlcov/
 
 # Lake, catalog, warehouse and downloads (never commit data; real runs use ~/projects/_data)
-data/
+/data/
 *.duckdb
 *.duckdb.wal
 *.pdf
@@ -47,5 +47,5 @@ infra/**/.terraform.lock.hcl.bak
 Thumbs.db
 *.log
 
-# Generated results site (published by refresh.yml)
-site/
+/index.html
+/summary.json
