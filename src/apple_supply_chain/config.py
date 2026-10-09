@@ -26,7 +26,7 @@ DEFAULT_TRADE_REPORTERS = (
     "410",  # Rep. of Korea
     "392",  # Japan
 )
-DEFAULT_TRADE_COMMODITIES = ("8517", "8471", "851712", "851713")
+DEFAULT_TRADE_COMMODITIES = ("8517", "8471", "851712", "851713", "851714")
 
 
 class ConfigError(ValueError):

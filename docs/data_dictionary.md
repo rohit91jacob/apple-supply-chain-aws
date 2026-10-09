@@ -92,7 +92,7 @@ UN Comtrade preview rows (plain totals only: customs code C00, all transport mod
 | year | calendar year |
 | reporter_code / reporter_iso3 / reporter_name | UN Comtrade reporter (490 "Other Asia, nes" is resolved to Taiwan) |
 | partner_code / partner_iso3 / partner_name | `WLD` / World for exports |
-| cmd_code, cmd_desc, classification | `8517`, `8471`, `851712` (HS2007-2017 cellular phones), `851713` (HS2022 smartphones); HS edition (H4/H5/H6) |
+| cmd_code, cmd_desc, classification | `8517`, `8471`, `851712` (HS2007-2017 cellular phones), `851713` (HS2022 smartphones), `851714` (HS2022 other cellular/wireless telephones); HS edition (H4/H5/H6) |
 | primary_value_usd, net_weight_kg, qty, qty_unit | as reported or estimated by UNSD |
 | is_reported, is_aggregate | Comtrade flags |
 
@@ -141,7 +141,7 @@ balances. Q4 flows = 10-K annual − (Q1 + Q2 + Q3).
 
 ### `mart_trade_flow_shifts` (grain: dataset × year × product group × country)
 `product_group` ∈ `hs8517_phones_and_telecom`, `hs8471_computers`, `cellular_phones`
-(851712 ≤ 2021, 851713 ≥ 2022). `value_usd, selected_total_usd, share_of_selected` (share of the
+(851712 ≤ 2021, 851713 + 851714 ≥ 2022). `value_usd, selected_total_usd, share_of_selected` (share of the
 queried countries, **not** of world trade), `yoy_growth` (only when the prior year exists),
 `rank_in_year, is_reported`.
 

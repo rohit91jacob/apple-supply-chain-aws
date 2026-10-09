@@ -131,10 +131,19 @@ def silver_checks(
         ),
         _check(
             layer,
-            "every supplier-list edition parsed",
+            "supplier list: at least one edition parsed",
             "error",
             con,
             "select 1 where (select count(distinct edition) from silver.supplier_sites) = 0",
+        ),
+        _check(
+            layer,
+            "supplier list: every landed PDF edition produced rows",
+            "error",
+            con,
+            "select item from silver.raw_manifest where source = 'apple_supplier_list' "
+            "and dataset = 'pdf' and try_cast(item as integer) not in "
+            "(select distinct edition from silver.supplier_sites)",
         ),
         _check(
             layer,
@@ -183,14 +192,16 @@ def silver_checks(
         ),
         _check(
             layer,
-            "6-digit cellular phones <= 4-digit HS 8517 parent",
+            "6-digit cellular phones (sum of 851712/851713/851714) <= HS 8517 parent",
             "error",
             con,
-            "select c.* from silver.trade_flows c join silver.trade_flows p "
+            "with c as (select dataset, year, reporter_code, partner_code, "
+            "sum(primary_value_usd) as v from silver.trade_flows "
+            "where cmd_code in ('851712', '851713', '851714') group by 1, 2, 3, 4) "
+            "select c.* from c join silver.trade_flows p "
             "on c.dataset = p.dataset and c.year = p.year and c.reporter_code = p.reporter_code "
             "and c.partner_code = p.partner_code and p.cmd_code = '8517' "
-            "where c.cmd_code in ('851712', '851713') "
-            "and c.primary_value_usd > p.primary_value_usd * 1.0001",
+            "where c.v > p.primary_value_usd * 1.0001",
         ),
         _check(
             layer,

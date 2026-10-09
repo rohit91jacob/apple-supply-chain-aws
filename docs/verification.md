@@ -95,8 +95,16 @@ The trade marts are reproduced from UN Comtrade's own reporter-declared values; 
 independent publication of the same series was reconciled. What was checked:
 
 * Child codes never exceed their parent (above).
-* The HS 2017 → HS 2022 change is handled explicitly: 851712 (to 2021) and 851713 (2022+) are
-  combined into one `cellular_phones` series, and the two never overlap in a year.
+* The HS 2017 → HS 2022 change is handled explicitly. HS 2022 split 851712 ("telephones for
+  cellular networks") into 851713 (smartphones) and 851714 (other cellular/wireless
+  telephones), so `cellular_phones` is 851712 to 2021 and 851713 + 851714 from 2022; the
+  codes never overlap in a year. (An earlier build used 851713 alone; 851714 is small - US
+  2024 imports of it were US$0.31 B from China mainland, 0.09 B from Viet Nam and 0.01 B from
+  India - and moved the US-import shares quoted in the README by at most 0.2 points.)
+* Spot check of the mart against a separate, hand-issued preview query (US imports, 2024,
+  partners 156/699/704, codes 8517/851713/851714): Viet Nam 851713 = US$2.18 B + 851714 =
+  US$0.09 B, matching the mart's 2.27 B for Viet Nam; China mainland 41.73 + 0.31 = 42.05 B,
+  matching. This is the same publisher, so it checks the pipeline, not Comtrade.
 * Coverage gaps are visible rather than filled: Viet Nam had not reported 2024 at build time,
   so its 2024 exports are absent (its 2024 position is visible only in the US-import mirror).
 

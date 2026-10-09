@@ -1,5 +1,6 @@
 -- HS 8517 (telephone sets & transmission apparatus) and HS 8471 (computers) at 4 digits, plus
--- a continuous "cellular phones" series: 851712 until HS 2017, 851713 (smartphones) from HS 2022.
+-- a continuous "cellular phones" series: 851712 until HS 2017; from HS 2022 that code was split
+-- into 851713 (smartphones) + 851714 (other cellular/wireless telephones), so both are summed.
 with flows as (
     select * from {{ source('silver', 'trade_flows') }}
     where primary_value_usd is not null
@@ -17,10 +18,10 @@ select
     case
         when cmd_code = '8517' then 'hs8517_phones_and_telecom'
         when cmd_code = '8471' then 'hs8471_computers'
-        when cmd_code in ('851712', '851713') then 'cellular_phones'
+        when cmd_code in ('851712', '851713', '851714') then 'cellular_phones'
     end as product_group,
     classification,
     cast(primary_value_usd as double) as value_usd,
     is_reported
 from flows
-where cmd_code in ('8517', '8471', '851712', '851713')
+where cmd_code in ('8517', '8471', '851712', '851713', '851714')

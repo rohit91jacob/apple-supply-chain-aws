@@ -225,11 +225,13 @@ def comtrade_response(dataset: str, year: int) -> bytes:
             for cmd in cmds:
                 if cmd == "851712" and year >= 2022:
                     continue
-                if cmd == "851713" and year < 2022:
+                if cmd in ("851713", "851714") and year < 2022:
                     continue
                 value = round(rng.uniform(1e8, 2e11), 0)
                 if cmd == "8517":
                     parent = value
+                elif cmd == "851714" and parent is not None:  # small HS 2022 residual code
+                    value = round(parent * rng.uniform(0.001, 0.02), 0)
                 elif cmd.startswith("8517") and parent is not None:
                     value = round(parent * rng.uniform(0.3, 0.7), 0)
                 country = by_comtrade_code(rep if dataset == "exports" else par)

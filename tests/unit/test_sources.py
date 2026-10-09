@@ -210,9 +210,18 @@ def test_comtrade_parse_synthetic_and_child_le_parent():
     rows = comtrade.parse(comtrade_response("exports", 2023), dataset="exports")
     assert {r["reporter_iso3"] for r in rows} >= {"CHN", "IND", "VNM", "TWN"}
     parent = {(r["reporter_code"]): r["primary_value_usd"] for r in rows if r["cmd_code"] == "8517"}
+    cellular: dict = {}
     for r in rows:
-        if r["cmd_code"] == "851713":
-            assert r["primary_value_usd"] <= parent[r["reporter_code"]]
+        if r["cmd_code"] in ("851713", "851714"):
+            cellular[r["reporter_code"]] = (
+                cellular.get(r["reporter_code"], 0) + r["primary_value_usd"]
+            )
+    assert {r["cmd_code"] for r in rows} >= {"851713", "851714"}
+    for code, value in cellular.items():
+        assert value <= parent[code]
+    # HS 2017 years carry the undivided 851712 code instead
+    old = comtrade.parse(comtrade_response("exports", 2019), dataset="exports")
+    assert {r["cmd_code"] for r in old} & {"851713", "851714"} == set()
 
 
 def test_comtrade_error_and_cap():

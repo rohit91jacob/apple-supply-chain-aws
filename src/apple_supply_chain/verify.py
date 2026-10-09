@@ -44,6 +44,14 @@ BALANCE_LINES = {
     "Accounts payable": "accounts_payable",
 }
 CAPEX_LINE = "Payments for acquisition of property, plant and equipment"
+# 19 line items per fiscal-year column; each statement PDF has two annual columns.
+EXPECTED_ITEMS = (
+    *INCOME_LINES.values(),
+    *(f"segment:{s}" for s in SEGMENTS),
+    *(f"category:{c}" for c in CATEGORIES),
+    *BALANCE_LINES.values(),
+    "capex",
+)
 _NUM = re.compile(r"\(?-?[\d,]+\)?|—")
 
 
@@ -116,6 +124,16 @@ def parse_statements(pdf_bytes: bytes, fiscal_year: int) -> dict[tuple[int, str]
     return out
 
 
+def missing_items(parsed: dict[tuple[int, str], float], fiscal_year: int) -> list[tuple[int, str]]:
+    """Expected (fiscal_year, line_item) pairs that ``parse_statements`` did not find."""
+    return [
+        (year, item)
+        for year in (fiscal_year, fiscal_year - 1)
+        for item in EXPECTED_ITEMS
+        if (year, item) not in parsed
+    ]
+
+
 def pipeline_values(settings: Settings) -> dict[tuple[int, str], float]:
     con = connect(settings)
     try:
@@ -171,7 +189,21 @@ def run_verification(
     ours = pipeline_values(settings)
     comparisons = []
     for fy, pdf in sorted(documents.items()):
-        for (year, item), published in sorted(parse_statements(pdf, fy).items()):
+        parsed = parse_statements(pdf, fy)
+        # A line the parser could not find is a failure, not a silently smaller denominator.
+        for year, item in missing_items(parsed, fy):
+            comparisons.append(
+                {
+                    "document": STATEMENTS.get(fy, f"FY{fy}"),
+                    "fiscal_year": year,
+                    "line_item": item,
+                    "published": None,
+                    "pipeline": None,
+                    "matched": False,
+                    "note": "line item not found in the published statement",
+                }
+            )
+        for (year, item), published in sorted(parsed.items()):
             value = ours.get((year, item))
             comparisons.append(
                 {
@@ -203,5 +235,5 @@ def run_verification(
         "supplier_count_checks": supplier_checks,
     }
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(result, indent=2))
+    out.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8", newline="\n")
     return result

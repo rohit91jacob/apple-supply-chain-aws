@@ -488,7 +488,7 @@ build time.</p>
         )
     }
 <h2>US imports of cellular phones by partner</h2>
-<p class='note'>HS 851712 to 2021, 851713 (smartphones) from HS 2022, as reported by the US.</p>
+<p class='note'>HS 851712 to 2021; 851713 (smartphones) + 851714 (other cellular telephones) from HS 2022, as reported by the US.</p>
 {
         line_chart(
             _trade_series(d["trade"], "us_imports", "cellular_phones"), kind="usd_b", y_label="US$"

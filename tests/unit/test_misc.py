@@ -7,7 +7,7 @@ import pytest
 from apple_supply_chain.config import ConfigError, Settings
 from apple_supply_chain.fixtures import make_pdf
 from apple_supply_chain.report.site import _fmt, _nice_step, line_chart
-from apple_supply_chain.verify import _numbers, parse_statements
+from apple_supply_chain.verify import EXPECTED_ITEMS, _numbers, missing_items, parse_statements
 
 
 def test_settings_defaults_and_ranges(monkeypatch, tmp_path):
@@ -77,6 +77,11 @@ def test_parse_statements_on_a_synthetic_statement():
     assert got[(2024, "category:iPhone")] == 65
     assert got[(2025, "inventory")] == 7  # balance sheet, not the cash-flow change
     assert got[(2025, "capex")] == 12
+    # Lines the synthetic statement lacks are reported as missing, never silently dropped.
+    missing = missing_items(got, 2025)
+    assert (2025, "segment:Japan") in missing and (2024, "ppe_net") in missing
+    assert (2025, "net_sales") not in missing
+    assert len(missing_items({}, 2025)) == 2 * len(EXPECTED_ITEMS) == 38
 
 
 def test_report_helpers():

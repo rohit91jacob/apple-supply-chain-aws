@@ -19,7 +19,7 @@ working capital? This project answers that from public data only:
 * **Apple's annual Supplier List** (nine editions, 2014-2024), parsed from the PDFs at
   runtime into a supplier → country network.
 * **UN Comtrade** (keyless public preview API) for who exports the world's phones (HS 8517,
-  851712/851713) and computers (HS 8471), 2015-2024.
+  851712/851713/851714) and computers (HS 8471), 2015-2024.
 
 It is built as an AWS-native batch pipeline - **Step Functions orchestrating Lambda
 extractors → S3 → Iceberg tables in a Glue-style catalog → dbt → a supplier network graph
@@ -39,7 +39,7 @@ DuckDB and Neptune is networkx. The Terraform for the real services is validated
 | **Supplier footprint, 2024 list (FY2023 spend)** | 187 suppliers in 28 countries; China mainland holds 33.4% of supplier-country pairs (38.6% in the 2019 list), Viet Nam 7.4% (3.6%), India 3.0% (1.8%) |
 | **Concentration (HHI over countries)** | 0.153 on supplier-country pairs in 2024, down from 0.194 in 2017 |
 | **Disruption scenario: China mainland cut off (2024 list)** | 37.5% of listed sites exposed; 84.0% of suppliers have at least one site there; **29.9% (56 suppliers) have no listed site outside it**. China mainland + Taiwan: 43.8% of sites, 38.5% of suppliers with no alternative |
-| **Trade-flow shift** | India's HS 8517 exports rose from $0.8 B (2015) to $21.8 B (2024); its share of US cellular-phone imports from the countries tracked went from 0.0% to 13.7% while Viet Nam's fell from 19.5% (2019) to 4.2% (2024) and China's was 81.2% |
+| **Trade-flow shift** | India's HS 8517 exports rose from $0.8 B (2015) to $21.8 B (2024); its share of US cellular-phone imports from the countries tracked went from 0.0% to 13.6% while Viet Nam's fell from 19.5% (2019) to 4.4% (2024) and China's was 81.1% |
 | **Geographic revenue mix** | Greater China 25.1% of net sales in FY2015 → 15.5% in FY2025; Services 8.5% → 26.2% |
 
 **Verification:** 114 of 114 figures (net sales, cost of sales, gross margin, five segments,
@@ -92,7 +92,7 @@ flowchart LR
 | Extractors (Lambda handlers) | Download each source, validate it, land it unchanged in the raw bucket keyed by sha256 with a `_latest` pointer; filed 10-Ks and archived PDFs are never re-downloaded | `extract.py`, `sources/`, `raw.py`, `lambdas/handlers.py` |
 | Polite HTTP client | Per-host spacing (SEC ≤ ~7 req/s, Comtrade 3 s), retries with backoff on 429/5xx, descriptive User-Agent | `http.py` |
 | Silver | Parses companyfacts, XBRL instances (dimensional segment/product/country facts), 10-K text (purchase obligations), PDFs (two layouts + ruled tables) and Comtrade JSON into typed Iceberg tables with lineage | `transform/silver.py`, `lakehouse/iceberg.py` |
-| Data-quality gates | 18 silver + 7 gold checks; error-level failures stop the state machine (exit 3) | `quality.py` |
+| Data-quality gates | 19 silver + 7 gold checks; error-level failures stop the state machine (exit 3) | `quality.py` |
 | dbt | 17 models (staging → intermediate → marts), 59 data tests; DuckDB locally, Athena target compiled in CI | `dbt/` |
 | Supplier graph | Bipartite supplier-country graph per edition; HHI, single-country dependency, disruption scenarios; Neptune Gremlin CSVs | `graph/` |
 | Orchestration | The ASL definition (also rendered by Terraform) plus a local interpreter for Task/Parallel/Choice/Pass/Fail with Retry/Catch | `orchestration/` |
@@ -120,7 +120,7 @@ flowchart LR
 |---|---|---|---|---|
 | [SEC EDGAR APIs](https://www.sec.gov/search-filings/edgar-application-programming-interfaces) - `companyfacts`, `submissions`, 10-K folders | 13 us-gaap concepts (all 10-K/10-Q facts), dimensional net sales from every 10-K instance since FY2009, purchase-obligation text | Public information, may be redistributed ([SEC policy](https://www.sec.gov/privacy)); User-Agent required | New 10-Q/10-K about every three months (Apple's FY ends late September; 10-K ~early November) | Segment/product mixes before FY2013 use other category schemes and are excluded from the mix mart; manufacturing purchase obligations missing for FY2009 |
 | Apple Supplier List ([current edition](https://www.supplychainreports.apple/Apple-Supplier-List)) | Supplier names, countries, facility addresses (2014-2019) or provinces/states (2021+) | © Apple - parsed at runtime, never committed | Annually (spring) | 2016 and 2020 editions not retrievable (not archived under the known URLs); the newest edition Apple links is still the 2024 (FY2023) list; "sites" changes meaning between layouts (facilities vs provinces) |
-| [UN Comtrade](https://comtradeplus.un.org/) public preview | Annual exports to World for 11 reporters, and US imports by partner, HS 8517 / 8471 / 851712 / 851713 | © UN; limited derived figures may be published, raw data not redistributed | Reporters submit through the year; annual data revised | Preview: 1 period and ≤500 rows per call; Viet Nam 2024 exports not yet reported at build time; shares are of the 11 selected countries, not of world trade |
+| [UN Comtrade](https://comtradeplus.un.org/) public preview | Annual exports to World for 11 reporters, and US imports by partner, HS 8517 / 8471 / 851712 / 851713 / 851714 | © UN; limited derived figures may be published, raw data not redistributed | Reporters submit through the year; annual data revised | Preview: 1 period and ≤500 rows per call; Viet Nam 2024 exports not yet reported at build time; shares are of the 11 selected countries, not of world trade |
 | US Census international trade API (optional) | US general imports by country, HS4 | Public domain; free API key required | Monthly | Skipped unless `CENSUS_API_KEY` is set (it was not set for the runs reported here) |
 
 Licences and what is committed: [DATA_LICENSE.md](DATA_LICENSE.md). **Real vs synthetic:** the
@@ -161,7 +161,7 @@ make help               # every target
 # 1. Offline: the whole state machine on fixtures (~30 s)
 make pipeline-fixtures
 
-# 2. Real data (first run downloads ~80 MB in ~8 min; later runs ~4 min)
+# 2. Real data (first run downloads ~80 MB in 4-8 min, depending on Comtrade 429 back-off; later runs 3-4 min)
 export ASC_DATA_DIR=~/asc-data              # keep downloads outside the repo
 export SEC_USER_AGENT="Your Name you@example.com"
 uv run asc pipeline                         # extract -> silver -> DQ -> dbt -> graph -> DQ
