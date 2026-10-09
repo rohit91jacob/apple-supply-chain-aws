@@ -10,6 +10,10 @@ import pytest
 from apple_supply_chain.config import Settings
 from apple_supply_chain.fixtures import build_fixture_tree
 
+# Tests never run on EC2: stop boto3 / pyarrow's AWS SDK from probing the instance-metadata
+# endpoint for credentials or region (slow, and a source of flaky native-client start-up).
+os.environ.setdefault("AWS_EC2_METADATA_DISABLED", "true")
+
 REPO = Path(__file__).resolve().parents[1]
 COMMITTED = REPO / "tests" / "fixtures"
 

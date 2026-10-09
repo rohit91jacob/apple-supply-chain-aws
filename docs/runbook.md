@@ -69,6 +69,16 @@ Apple rephrased the disclosure. Inspect the 10-K text and add a pattern to
 `$ASC_DATA_DIR/warehouse/asc.duckdb` gives the full dbt log. A DuckDB "different configuration"
 error means another process has the file open read-only - close it.
 
+### The whole test session dies on Windows (`Windows fatal exception: code 0xc000070a`)
+Seen locally (Windows 11, heavily loaded machine), never on Linux: running *all* tests in one
+pytest process occasionally kills the interpreter inside pyarrow's native S3 client start-up
+in `test_iceberg_on_s3_and_glue_sync_with_moto_server`. The same test passes on its own and
+the suites pass when run separately, so run `uv run pytest tests/unit` and
+`uv run pytest -m e2e tests/e2e` as two commands (this is what CI does anyway). The
+`code 0x8007000e` lines that pytest's faulthandler prints from `platform._wmi_query` are
+handled first-chance exceptions and harmless. Tests set `AWS_EC2_METADATA_DISABLED=true` so
+no AWS SDK probes the instance-metadata endpoint.
+
 ## Scheduled refresh fails
 
 `refresh.yml` opens (or comments on) an issue titled **"Scheduled refresh is failing"**.

@@ -60,6 +60,8 @@ jobs:
       - name: Start a pipeline execution
         if: inputs.start_execution
         run: |
-          arn=$(aws stepfunctions list-state-machines \
-            --query "stateMachines[?name=='$NAME_PREFIX-pipeline'].stateMachineArn | [0]" --output text)
+          # Build the ARN instead of listing state machines: the deploy role is only allowed
+          # StartExecution/DescribeExecution on this one state machine (no states:List*).
+          account=$(aws sts get-caller-identity --query Account --output text)
+          arn="arn:aws:states:$AWS_REGION:$account:stateMachine:$NAME_PREFIX-pipeline"
           aws stepfunctions start-execution --state-machine-arn "$arn" --name "deploy-${{ github.run_id }}"

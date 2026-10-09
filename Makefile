@@ -25,8 +25,9 @@ format: ## Auto-fix lint and format
 	$(UV) run ruff check --fix .
 	$(UV) run ruff format .
 
-test: ## Unit + end-to-end tests (offline; no live or LocalStack tests)
-	$(UV) run pytest --cov --cov-report=term
+test: ## Unit + end-to-end tests (offline; two processes, see docs/runbook.md)
+	$(UV) run pytest tests/unit --cov --cov-report=
+	$(UV) run pytest -m e2e tests/e2e --cov --cov-append --cov-report=term
 
 test-unit: ## Unit tests only
 	$(UV) run pytest tests/unit
@@ -88,7 +89,7 @@ tf-lint: ## tflint (AWS ruleset)
 	cd infra && tflint --init && tflint --recursive --config "$$(pwd)/.tflint.hcl"
 
 tf-checkov: ## checkov static analysis of the Terraform
-	uvx checkov -d infra --framework terraform --quiet --compact
+	uvx --from "checkov==3.3.26" checkov -d infra --framework terraform --quiet --compact
 
 infra-check: tf-fmt tf-validate tf-lint tf-checkov ## Every Terraform check CI runs
 

@@ -47,5 +47,7 @@ infra/**/.terraform.lock.hcl.bak
 Thumbs.db
 *.log
 
+# Generated results site (published by refresh.yml)
+/site/
 /index.html
 /summary.json

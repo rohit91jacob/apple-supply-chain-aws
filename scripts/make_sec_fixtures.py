@@ -37,7 +37,8 @@ NS = {
 def _write(root: Path, url: str, payload: bytes) -> Path:
     path = root / fixture_relpath(url)
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_bytes(payload)
+    # End with a newline so pre-commit's end-of-file-fixer leaves regenerated fixtures alone.
+    path.write_bytes(payload if payload.endswith(b"\n") else payload + b"\n")
     return path
 
 
