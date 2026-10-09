@@ -1,0 +1,24 @@
+# Profiles live in the repo; every value comes from an environment variable with a local
+# default, so no credentials are ever stored here.
+apple_supply_chain:
+  target: "{{ env_var('DBT_TARGET', 'dev') }}"
+  outputs:
+    dev:
+      type: duckdb
+      path: "{{ env_var('ASC_DUCKDB_PATH', '../data/warehouse/asc.duckdb') }}"
+      threads: 4
+    ci:
+      type: duckdb
+      path: "{{ env_var('ASC_DUCKDB_PATH', '/tmp/asc/warehouse/asc.duckdb') }}"
+      threads: 4
+    # Cloud mapping: the same models compiled for Amazon Athena (engine v3, Trino SQL) with
+    # Iceberg tables in the Glue Data Catalog. CI only *compiles* this target; it never connects.
+    athena:
+      type: athena
+      s3_staging_dir: "{{ env_var('ASC_ATHENA_STAGING', 's3://asc-athena-results-example/dbt/') }}"
+      s3_data_dir: "{{ env_var('ASC_ATHENA_DATA_DIR', 's3://asc-curated-example/warehouse/dbt/') }}"
+      region_name: "{{ env_var('AWS_REGION', 'eu-west-1') }}"
+      database: awsdatacatalog
+      schema: asc
+      work_group: "{{ env_var('ASC_ATHENA_WORKGROUP', 'asc-analytics') }}"
+      threads: 4

@@ -1,0 +1,60 @@
+version: 2
+
+models:
+  - name: stg_financial_facts
+    description: SEC companyfacts metrics typed and classified into annual / quarter / instant periods.
+    columns:
+      - name: period_type
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["instant", "annual", "quarter", "other"]
+      - name: value_usd
+        data_tests: [not_null]
+    data_tests:
+      - unique_combination:
+          arguments:
+            columns: ["metric", "period_start", "period_end"]
+  - name: stg_segment_revenue
+    columns:
+      - name: breakdown
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["segment", "product", "country"]
+    data_tests:
+      - unique_combination:
+          arguments:
+            columns: ["fiscal_year", "breakdown", "member_label"]
+  - name: stg_purchase_obligations
+    data_tests:
+      - unique_combination:
+          arguments:
+            columns: ["fiscal_year", "kind"]
+  - name: stg_supplier_sites
+    columns:
+      - name: supplier_key
+        data_tests: [not_null]
+      - name: country_iso3
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_ref_country')
+                field: country_iso3
+      - name: layout
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["address", "locations"]
+  - name: stg_trade_flows
+    columns:
+      - name: product_group
+        data_tests: [not_null]
+    data_tests:
+      - unique_combination:
+          arguments:
+            columns: ["dataset", "year", "reporter_iso3", "partner_iso3", "cmd_code"]
+  - name: stg_ref_country
+    columns:
+      - name: country_iso3
+        data_tests: [unique, not_null]

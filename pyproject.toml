@@ -1,0 +1,114 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "apple-supply-chain-aws"
+version = "0.1.0"
+description = "Apple supply chain analytics on an emulated AWS stack: Step Functions + Lambda extractors -> S3 -> Iceberg/Glue catalog -> dbt -> supplier network graph."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.12,<3.13"
+authors = [{ name = "rohit91jacob" }]
+keywords = ["apple", "supply-chain", "sec-edgar", "xbrl", "un-comtrade", "iceberg", "dbt", "networkx", "aws", "step-functions"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Database",
+  "Topic :: Scientific/Engineering :: Information Analysis",
+]
+dependencies = [
+  "boto3>=1.40,<2",
+  "dbt-core>=1.11,<1.13",
+  "dbt-duckdb==1.11.0",
+  "duckdb==1.5.6",
+  "networkx>=3.5,<4",
+  "pdfplumber==0.11.10",
+  "pyarrow>=21",
+  # SqlCatalog (SQLite) is the local stand-in for the Glue Data Catalog.
+  "pyiceberg[sql-sqlite,pyarrow]==0.12.0",
+  "requests>=2.32,<3",
+]
+
+[project.scripts]
+asc = "apple_supply_chain.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/rohit91jacob/apple-supply-chain-aws"
+"SEC EDGAR APIs" = "https://www.sec.gov/search-filings/edgar-application-programming-interfaces"
+"UN Comtrade" = "https://comtradeplus.un.org/"
+
+[dependency-groups]
+dev = [
+  "moto[s3,glue,stepfunctions,server]>=5.1,<6",
+  "pre-commit>=4,<5",
+  "pytest>=9,<10",
+  "pytest-cov>=7,<8",
+  "ruff>=0.16,<0.17",
+]
+# Only needed to compile the dbt project for the Athena target (CI); never connects.
+athena = ["dbt-athena-community==1.11.1"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/apple_supply_chain"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"src/apple_supply_chain/orchestration/state_machine.asl.json" = "apple_supply_chain/orchestration/state_machine.asl.json"
+
+[tool.uv]
+default-groups = ["dev"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests"]
+extend-exclude = ["dbt/target", "dbt/dbt_packages", "dbt/logs", "site", "data"]
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "B", "UP", "SIM", "C4", "RUF", "PTH", "N", "S", "T20", "PL", "TRY", "RET", "PIE"]
+ignore = [
+  "E501",    # ruff format owns line length; long strings/SQL are left intact
+  "PLR0913", # extractor/handler signatures mirror the AWS event shape
+  "PLR2004", # thresholds in data rules are clearer inline
+  "TRY003",  # long exception messages carry useful context
+  "RET504",  # assign-then-return keeps transforms readable
+  "S608",    # SQL is built from internal identifiers only, never user input
+  "PLR0911", # small formatting helpers read better with early returns
+  "PLR0912", # the statement parser is a flat list of line rules
+  "PLR0917", # DQ check helper mirrors (layer, name, severity, sql)
+  "PLW2901", # rebinding the loop variable for cleaning is intentional
+  "TRY301",  # the ASL interpreter raises states errors inline by design
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101", "PLR2004", "S603", "S607", "PLC0415"]
+"src/apple_supply_chain/cli.py" = ["T201", "PLR0915"]
+"src/apple_supply_chain/fixtures.py" = ["S311"]  # seeded RNG for SYNTHETIC fixtures, not crypto
+"scripts/**" = ["T201"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["apple_supply_chain"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers -m 'not live and not localstack'"
+markers = [
+  "e2e: end-to-end pipeline runs on the committed fixtures (no network)",
+  "live: downloads real data from the public sources (network)",
+  "localstack: needs a LocalStack endpoint at AWS_ENDPOINT_URL (CI only)",
+]
+filterwarnings = [
+  "ignore:Delete operation did not match any records:UserWarning",
+  "ignore::DeprecationWarning:dbt.*",
+  "ignore::DeprecationWarning:pyiceberg.*",
+  "ignore::DeprecationWarning:botocore.*",
+]
+
+[tool.coverage.run]
+source = ["apple_supply_chain"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true

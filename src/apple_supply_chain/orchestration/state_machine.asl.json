@@ -1,0 +1,144 @@
+{
+  "Comment": "Apple supply chain pipeline: extract (parallel Lambdas) -> silver Iceberg -> DQ gate -> dbt marts -> supplier graph -> DQ gate. Placeholders such as build_silver_arn are Lambda ARNs filled in by Terraform templatefile() or by the local runner.",
+  "StartAt": "Extract",
+  "States": {
+    "Extract": {
+      "Type": "Parallel",
+      "Comment": "Each extractor lands raw objects in S3; all are idempotent (content-addressed).",
+      "Branches": [
+        {
+          "StartAt": "ExtractSecEdgar",
+          "States": {
+            "ExtractSecEdgar": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {"FunctionName": "${extract_sec_edgar_arn}", "Payload": {"source": "sec_edgar"}},
+              "OutputPath": "$.Payload",
+              "Retry": [
+                {"ErrorEquals": ["Lambda.ServiceException", "Lambda.AWSLambdaException", "Lambda.SdkClientException", "Lambda.TooManyRequestsException"], "IntervalSeconds": 2, "MaxAttempts": 3, "BackoffRate": 2.0},
+                {"ErrorEquals": ["States.TaskFailed"], "IntervalSeconds": 30, "MaxAttempts": 2, "BackoffRate": 2.0}
+              ],
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "ExtractSupplierList",
+          "States": {
+            "ExtractSupplierList": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {"FunctionName": "${extract_apple_supplier_list_arn}", "Payload": {"source": "apple_supplier_list"}},
+              "OutputPath": "$.Payload",
+              "Retry": [
+                {"ErrorEquals": ["Lambda.ServiceException", "Lambda.AWSLambdaException", "Lambda.SdkClientException", "Lambda.TooManyRequestsException"], "IntervalSeconds": 2, "MaxAttempts": 3, "BackoffRate": 2.0},
+                {"ErrorEquals": ["States.TaskFailed"], "IntervalSeconds": 30, "MaxAttempts": 2, "BackoffRate": 2.0}
+              ],
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "ExtractUnComtrade",
+          "States": {
+            "ExtractUnComtrade": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {"FunctionName": "${extract_un_comtrade_arn}", "Payload": {"source": "un_comtrade"}},
+              "OutputPath": "$.Payload",
+              "Retry": [
+                {"ErrorEquals": ["Lambda.ServiceException", "Lambda.AWSLambdaException", "Lambda.SdkClientException", "Lambda.TooManyRequestsException"], "IntervalSeconds": 2, "MaxAttempts": 3, "BackoffRate": 2.0},
+                {"ErrorEquals": ["States.TaskFailed"], "IntervalSeconds": 60, "MaxAttempts": 2, "BackoffRate": 2.0}
+              ],
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "ExtractUsCensus",
+          "States": {
+            "ExtractUsCensus": {
+              "Type": "Task",
+              "Comment": "Optional source; returns skipped when no CENSUS_API_KEY is configured.",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {"FunctionName": "${extract_us_census_arn}", "Payload": {"source": "us_census"}},
+              "OutputPath": "$.Payload",
+              "Retry": [
+                {"ErrorEquals": ["Lambda.ServiceException", "Lambda.AWSLambdaException", "Lambda.SdkClientException", "Lambda.TooManyRequestsException"], "IntervalSeconds": 2, "MaxAttempts": 3, "BackoffRate": 2.0}
+              ],
+              "Catch": [{"ErrorEquals": ["States.ALL"], "ResultPath": "$.error", "Next": "CensusOptionalFailed"}],
+              "End": true
+            },
+            "CensusOptionalFailed": {
+              "Type": "Pass",
+              "Comment": "The optional source must never fail the run.",
+              "Result": {"source": "us_census", "skipped": "extract failed (optional source)"},
+              "End": true
+            }
+          }
+        }
+      ],
+      "ResultPath": "$.extract",
+      "Next": "BuildSilver"
+    },
+    "BuildSilver": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {"FunctionName": "${build_silver_arn}", "Payload": {"stage": "silver", "run_id.$": "$$.Execution.Name"}},
+      "ResultSelector": {"tables.$": "$.Payload.tables"},
+      "ResultPath": "$.silver",
+      "Retry": [{"ErrorEquals": ["Lambda.ServiceException", "Lambda.TooManyRequestsException"], "IntervalSeconds": 2, "MaxAttempts": 3, "BackoffRate": 2.0}],
+      "Next": "CheckSilver"
+    },
+    "CheckSilver": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {"FunctionName": "${check_silver_arn}", "Payload": {"layer": "silver"}},
+      "ResultSelector": {"passed.$": "$.Payload.passed", "errors.$": "$.Payload.errors", "warnings.$": "$.Payload.warnings"},
+      "ResultPath": "$.silver_dq",
+      "Next": "SilverGate"
+    },
+    "SilverGate": {
+      "Type": "Choice",
+      "Choices": [{"Variable": "$.silver_dq.passed", "BooleanEquals": true, "Next": "BuildMarts"}],
+      "Default": "DataQualityFailed"
+    },
+    "BuildMarts": {
+      "Type": "Task",
+      "Comment": "dbt build: models + tests (DuckDB locally, Athena in AWS).",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {"FunctionName": "${build_marts_arn}", "Payload": {"stage": "marts", "run_id.$": "$$.Execution.Name"}},
+      "ResultSelector": {"gold_tables.$": "$.Payload.gold_tables"},
+      "ResultPath": "$.marts",
+      "Next": "BuildGraph"
+    },
+    "BuildGraph": {
+      "Type": "Task",
+      "Comment": "Supplier network graph, HHI and disruption scenarios; Neptune bulk-load CSVs.",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {"FunctionName": "${build_graph_arn}", "Payload": {"stage": "graph", "run_id.$": "$$.Execution.Name"}},
+      "ResultSelector": {"tables.$": "$.Payload.tables"},
+      "ResultPath": "$.graph",
+      "Next": "CheckGold"
+    },
+    "CheckGold": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {"FunctionName": "${check_gold_arn}", "Payload": {"layer": "gold"}},
+      "ResultSelector": {"passed.$": "$.Payload.passed", "errors.$": "$.Payload.errors", "warnings.$": "$.Payload.warnings"},
+      "ResultPath": "$.gold_dq",
+      "Next": "GoldGate"
+    },
+    "GoldGate": {
+      "Type": "Choice",
+      "Choices": [{"Variable": "$.gold_dq.passed", "BooleanEquals": true, "Next": "Done"}],
+      "Default": "DataQualityFailed"
+    },
+    "DataQualityFailed": {
+      "Type": "Fail",
+      "Error": "DataQualityFailed",
+      "Cause": "An error-level data-quality check failed; see the CheckSilver / CheckGold output."
+    },
+    "Done": {"Type": "Succeed"}
+  }
+}

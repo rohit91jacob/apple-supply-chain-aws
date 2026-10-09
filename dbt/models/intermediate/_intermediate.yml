@@ -1,0 +1,20 @@
+version: 2
+
+models:
+  - name: int_annual_financials
+    description: Fiscal-year flows and year-end balances from SEC companyfacts, with prior-year balances.
+    columns:
+      - name: fiscal_year
+        data_tests: [unique, not_null]
+  - name: int_quarterly_financials
+    description: Fiscal quarters (Q4 derived = 10-K annual minus Q1..Q3) with quarter-end balances.
+    data_tests:
+      - unique_combination:
+          arguments:
+            columns: ["fiscal_year", "fiscal_quarter"]
+  - name: int_supplier_country_pairs
+    description: Edition x supplier x country, the comparable unit across supplier-list layouts.
+    data_tests:
+      - unique_combination:
+          arguments:
+            columns: ["edition", "supplier_key", "country_iso3"]

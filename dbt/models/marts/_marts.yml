@@ -1,0 +1,169 @@
+version: 2
+
+models:
+  - name: fct_working_capital_annual
+    description: >
+      Annual DIO / DPO / DSO / cash conversion cycle, gross margin, manufacturing purchase
+      obligations and vendor non-trade receivables. One row per fiscal year (SEC companyfacts
+      + 10-K text).
+    columns:
+      - name: fiscal_year
+        data_tests: [unique, not_null]
+      - name: revenue_usd
+        data_tests:
+          - not_null
+          - values_between:
+              arguments:
+                min_value: 0
+      - name: cost_of_sales_usd
+        data_tests:
+          - not_null
+          - values_between:
+              arguments:
+                min_value: 0
+      - name: gross_margin
+        data_tests:
+          - values_between:
+              arguments:
+                min_value: 0
+                max_value: 1
+      - name: dio_days
+        description: Average inventory / cost of sales x days in the fiscal year.
+        data_tests:
+          - values_between:
+              arguments:
+                min_value: 0
+                max_value: 120
+      - name: dpo_days
+        data_tests:
+          - values_between:
+              arguments:
+                min_value: 0
+                max_value: 365
+      - name: ccc_days
+        description: DIO + DSO - DPO. Negative means suppliers finance the operating cycle.
+        data_tests:
+          - values_between:
+              arguments:
+                min_value: -365
+                max_value: 365
+
+  - name: fct_working_capital_quarterly
+    description: Quarterly DIO / DPO / DSO / CCC (Q4 flows derived as annual minus Q1-Q3).
+    columns:
+      - name: fiscal_period
+        data_tests: [unique, not_null]
+      - name: fiscal_quarter
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [1, 2, 3, 4]
+                quote: false
+      - name: cost_of_sales_usd
+        data_tests:
+          - values_between:
+              arguments:
+                min_value: 0
+      - name: days_in_quarter
+        data_tests:
+          - values_between:
+              arguments:
+                min_value: 80
+                max_value: 100
+
+  - name: mart_revenue_mix
+    description: Net sales by segment (geography), product category and country with shares, FY2013+.
+    data_tests:
+      - unique_combination:
+          arguments:
+            columns: ["fiscal_year", "breakdown", "member_label"]
+      - shares_sum_to_one:
+          arguments:
+            column_name: share_of_total
+            group_by: ["fiscal_year", "breakdown"]
+    columns:
+      - name: share_of_total
+        data_tests:
+          - values_between:
+              arguments:
+                min_value: 0
+                max_value: 1
+
+  - name: mart_supplier_sites_by_country
+    description: Supplier footprint by country and Supplier List edition.
+    data_tests:
+      - unique_combination:
+          arguments:
+            columns: ["edition", "country_iso3"]
+      - shares_sum_to_one:
+          arguments:
+            column_name: pair_share
+            group_by: ["edition"]
+    columns:
+      - name: country_iso3
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_country')
+                field: country_iso3
+      - name: suppliers
+        data_tests:
+          - values_between:
+              arguments:
+                min_value: 1
+
+  - name: mart_supplier_concentration
+    description: Per-edition concentration (HHI), China/India/Vietnam shares and single-country suppliers.
+    columns:
+      - name: edition
+        data_tests: [unique, not_null]
+      - name: hhi_pairs
+        description: Herfindahl-Hirschman index over countries on supplier-country pairs (0-1).
+        data_tests:
+          - not_null
+          - values_between:
+              arguments:
+                min_value: 0
+                max_value: 1
+      - name: single_country_supplier_share
+        data_tests:
+          - values_between:
+              arguments:
+                min_value: 0
+                max_value: 1
+
+  - name: mart_trade_flow_shifts
+    description: Exports of HS 8517 / 8471 / cellular phones by country, and US imports by partner.
+    data_tests:
+      - unique_combination:
+          arguments:
+            columns: ["dataset", "year", "product_group", "country_iso3"]
+      - shares_sum_to_one:
+          arguments:
+            column_name: share_of_selected
+            group_by: ["dataset", "year", "product_group"]
+    columns:
+      - name: dataset
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["exports", "us_imports"]
+      - name: value_usd
+        data_tests:
+          - not_null
+          - values_between:
+              arguments:
+                min_value: 0
+
+  - name: mart_country_dependency
+    description: Latest supplier-list footprint next to the latest phone/computer export shares, per country.
+    columns:
+      - name: country_iso3
+        data_tests: [unique, not_null]
+
+  - name: dim_country
+    description: Country dimension (ISO3, UN Comtrade reporter code, UN M49 sub-region).
+    columns:
+      - name: country_iso3
+        data_tests: [unique, not_null]

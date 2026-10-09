@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Lake, catalog, warehouse and downloads (never commit data; real runs use ~/projects/_data)
+data/
+*.duckdb
+*.duckdb.wal
+*.pdf
+
+# dbt
+dbt/target/
+dbt/dbt_packages/
+dbt/logs/
+logs/
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log
+.terraform.tfstate.lock.info
+infra/**/.terraform.lock.hcl.bak
+
+# Local config / secrets
+.env
+.env.*
+!.env.example
+*.tfvars
+!infra/envs/*/example.tfvars
+
+# Editors / OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+*.log
+
+# Generated results site (published by refresh.yml)
+site/

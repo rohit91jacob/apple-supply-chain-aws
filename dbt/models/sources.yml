@@ -1,0 +1,33 @@
+version: 2
+
+sources:
+  - name: silver
+    description: >
+      Conformed Iceberg tables written by `asc silver` (namespace `silver`). Locally they are
+      loaded from the Iceberg snapshot into DuckDB; on AWS Athena reads them directly from the
+      Glue Data Catalog database `asc_silver`.
+    schema: "{{ 'asc_silver' if target.type == 'athena' else 'silver' }}"
+    tables:
+      - name: financial_facts
+        description: One row per us-gaap metric and period (latest filing wins), from SEC companyfacts.
+        columns:
+          - name: metric
+            data_tests: [not_null]
+          - name: period_end
+            data_tests: [not_null]
+          - name: value
+            data_tests: [not_null]
+      - name: segment_revenue
+        description: Net sales by reportable segment, product category and country, from 10-K XBRL instances.
+      - name: purchase_obligations
+        description: Manufacturing purchase obligations disclosed in 10-K text.
+      - name: supplier_sites
+        description: Rows parsed from each Apple Supplier List edition (facility or supplier x country).
+      - name: trade_flows
+        description: UN Comtrade annual HS 8517/8471 exports to World and US imports by partner.
+      - name: census_imports
+        description: Optional US Census imports by country (empty unless CENSUS_API_KEY is set).
+      - name: ref_country
+        description: Country reference (ISO3, UN Comtrade code, UN M49 sub-region).
+      - name: raw_manifest
+        description: Lineage - every raw object pointer (source URL, sha256, fetch time).

@@ -1,0 +1,52 @@
+iso3,name,comtrade_code,region,aliases
+CHN,China mainland,156,Eastern Asia,China|PRC|P.R. China|P.R.China|People's Republic of China|Mainland China
+TWN,Taiwan,490,Eastern Asia,Taiwan R.O.C.|Taiwan ROC|R.O.C.|Republic of China|Other Asia nes
+HKG,Hong Kong,344,Eastern Asia,Hong Kong SAR|Hong Kong China|China Hong Kong SAR
+MAC,Macau,446,Eastern Asia,Macao|Macau SAR
+JPN,Japan,392,Eastern Asia,
+KOR,South Korea,410,Eastern Asia,Korea|Republic of Korea|Rep. of Korea|S. Korea|Korea (South)
+VNM,Vietnam,704,South-eastern Asia,Viet Nam
+THA,Thailand,764,South-eastern Asia,
+MYS,Malaysia,458,South-eastern Asia,
+PHL,Philippines,608,South-eastern Asia,The Philippines
+SGP,Singapore,702,South-eastern Asia,
+IDN,Indonesia,360,South-eastern Asia,
+KHM,Cambodia,116,South-eastern Asia,
+IND,India,699,Southern Asia,
+LKA,Sri Lanka,144,Southern Asia,
+ISR,Israel,376,Western Asia,
+TUR,Turkey,792,Western Asia,Türkiye|Turkiye
+SAU,Saudi Arabia,682,Western Asia,
+ARE,United Arab Emirates,784,Western Asia,UAE
+USA,United States,842,Northern America,USA|U.S.|U.S.A.|US|United States of America
+CAN,Canada,124,Northern America,
+MEX,Mexico,484,Latin America and the Caribbean,
+BRA,Brazil,76,Latin America and the Caribbean,
+CRI,Costa Rica,188,Latin America and the Caribbean,
+AUT,Austria,40,Europe,
+BEL,Belgium,56,Europe,
+CZE,Czech Republic,203,Europe,Czechia
+DNK,Denmark,208,Europe,
+FIN,Finland,246,Europe,
+FRA,France,251,Europe,
+DEU,Germany,276,Europe,
+HUN,Hungary,348,Europe,
+IRL,Ireland,372,Europe,Republic of Ireland
+ITA,Italy,381,Europe,
+MLT,Malta,470,Europe,
+NLD,Netherlands,528,Europe,The Netherlands|Holland
+NOR,Norway,579,Europe,
+POL,Poland,616,Europe,
+PRT,Portugal,620,Europe,
+ROU,Romania,642,Europe,
+SVK,Slovakia,703,Europe,Slovak Republic
+ESP,Spain,724,Europe,
+SWE,Sweden,752,Europe,
+CHE,Switzerland,757,Europe,
+GBR,United Kingdom,826,Europe,UK|U.K.|England|Scotland|Wales|Northern Ireland|Great Britain
+MAR,Morocco,504,Africa,
+EGY,Egypt,818,Africa,
+ZAF,South Africa,710,Africa,
+AUS,Australia,36,Oceania,
+NZL,New Zealand,554,Oceania,
+PRI,Puerto Rico,630,Latin America and the Caribbean,
