@@ -56,6 +56,25 @@ def load_silver(settings: Settings) -> dict[str, int]:
     return counts
 
 
+def _release_dbt_duckdb() -> None:
+    """Close the DuckDB handle dbt-duckdb keeps open after an in-process ``dbtRunner`` call.
+
+    dbt-duckdb caches its environment (and the open database file) at class level, so the file
+    stays locked after ``invoke`` returns. On Windows that lock makes the next reader of the
+    file (``_push_warehouse`` copying it to S3) fail with PermissionError; on Linux it only
+    delays the release. There is no public API for this, hence the private attribute.
+    """
+    try:
+        from dbt.adapters.duckdb.connections import DuckDBConnectionManager  # noqa: PLC0415
+    except ImportError:  # pragma: no cover - dbt-duckdb is a runtime dependency
+        return
+    with DuckDBConnectionManager._LOCK:
+        env = DuckDBConnectionManager._ENV
+        DuckDBConnectionManager._ENV = None
+    if env is not None:
+        env.close()
+
+
 def run_dbt(settings: Settings, args: list[str]) -> None:
     from dbt.cli.main import dbtRunner  # noqa: PLC0415 - dbt import is slow
 
@@ -75,6 +94,7 @@ def run_dbt(settings: Settings, args: list[str]) -> None:
             ]
         )
     finally:
+        _release_dbt_duckdb()
         if env_backup is None:
             os.environ.pop("ASC_DUCKDB_PATH", None)
         else:

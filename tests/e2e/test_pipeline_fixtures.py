@@ -135,6 +135,9 @@ def test_cli_stages_individually(fixture_settings):
     assert main(["silver"]) == 0
     assert main(["dq", "--layer", "silver"]) == 0
     assert main(["marts"]) == 0
+    # dbt ran in-process; its DuckDB handle must be released, or (on Windows) reading the
+    # file - which is how the warehouse is copied to S3 between Lambdas - is refused.
+    assert fixture_settings.duckdb_path.read_bytes()[:4]
     assert main(["graph"]) == 0
     assert main(["dq", "--layer", "gold"]) == 0
     assert main(["sql", "select count(*) from marts.mart_revenue_mix"]) == 0
