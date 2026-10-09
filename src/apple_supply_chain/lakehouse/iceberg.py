@@ -88,6 +88,11 @@ def write_table(
     }
 
 
+def ns(settings: Settings, layer: str) -> str:
+    """Catalog namespace for a layer (``silver`` locally, ``asc_silver`` in Glue)."""
+    return f"{settings.namespace_prefix}{layer}"
+
+
 def read_table(catalog: Catalog, identifier: str) -> pa.Table:
     return catalog.load_table(identifier).scan().to_arrow()
 

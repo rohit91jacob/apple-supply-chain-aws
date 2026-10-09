@@ -14,7 +14,13 @@ from pathlib import Path
 import duckdb
 
 from apple_supply_chain.config import Settings
-from apple_supply_chain.lakehouse.iceberg import build_catalog, list_tables, read_table, write_table
+from apple_supply_chain.lakehouse.iceberg import (
+    build_catalog,
+    list_tables,
+    ns,
+    read_table,
+    write_table,
+)
 from apple_supply_chain.logs import get_logger
 
 log = get_logger(__name__)
@@ -40,7 +46,7 @@ def load_silver(settings: Settings) -> dict[str, int]:
     con = connect(settings)
     try:
         con.execute("create schema if not exists silver")
-        for ident in list_tables(catalog, "silver"):
+        for ident in list_tables(catalog, ns(settings, "silver")):
             name = ident.split(".", 1)[1]
             arrow = read_table(catalog, ident)
             con.execute(f'create or replace table silver."{name}" as select * from arrow')
@@ -101,7 +107,7 @@ def export_marts(settings: Settings, *, run_id: str = "") -> list[dict]:
     for name, table in tables.items():
         if hasattr(table, "read_all"):
             table = table.read_all()
-        out.append(write_table(catalog, f"gold.{name}", table, run_id=run_id))
+        out.append(write_table(catalog, f"{ns(settings, 'gold')}.{name}", table, run_id=run_id))
     return out
 
 

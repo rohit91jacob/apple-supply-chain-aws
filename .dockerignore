@@ -1,0 +1,13 @@
+.venv
+data
+site
+.git
+.github
+infra
+tests
+docs
+**/__pycache__
+dbt/target
+dbt/logs
+.ruff_cache
+.pytest_cache

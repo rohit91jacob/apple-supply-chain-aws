@@ -78,6 +78,8 @@ class Settings:
     census_api_key: str = ""
     first_fiscal_year: int = 2009
     log_format: str = "text"
+    # Catalog namespace prefix: "" locally (silver, gold), "asc_" on AWS Glue (asc_silver, ...)
+    namespace_prefix: str = ""
 
     @classmethod
     def from_env(cls) -> Settings:
@@ -113,6 +115,7 @@ class Settings:
             census_api_key=os.environ.get("CENSUS_API_KEY", "").strip(),
             first_fiscal_year=int(_env("ASC_FIRST_FISCAL_YEAR", "2009")),
             log_format=_env("ASC_LOG_FORMAT", "text"),
+            namespace_prefix=os.environ.get("ASC_NAMESPACE_PREFIX", "").strip(),
         )
 
     # ----------------------------------------------------------------- derived paths

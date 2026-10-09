@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from apple_supply_chain.config import Settings
 from apple_supply_chain.graph.network import analyse, build_graph, neptune_csv
-from apple_supply_chain.lakehouse.iceberg import build_catalog, write_table
+from apple_supply_chain.lakehouse.iceberg import build_catalog, ns, write_table
 from apple_supply_chain.logs import get_logger
 from apple_supply_chain.storage import build_store
 from apple_supply_chain.warehouse import connect
@@ -42,7 +42,7 @@ def build_graph_outputs(settings: Settings, *, run_id: str = "") -> dict:
         con.close()
     catalog = build_catalog(settings)
     for name, table in tables.items():
-        write_table(catalog, f"gold.{name}", table, run_id=run_id)
+        write_table(catalog, f"{ns(settings, 'gold')}.{name}", table, run_id=run_id)
 
     # Neptune bulk-load files for every edition (cloud mapping; see docs/runbook.md).
     store = build_store(settings)

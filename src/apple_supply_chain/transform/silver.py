@@ -14,7 +14,7 @@ import pyarrow as pa
 from apple_supply_chain import raw
 from apple_supply_chain.config import Settings
 from apple_supply_chain.countries import countries
-from apple_supply_chain.lakehouse.iceberg import build_catalog, write_table
+from apple_supply_chain.lakehouse.iceberg import build_catalog, ns, write_table
 from apple_supply_chain.logs import get_logger
 from apple_supply_chain.sources import census, comtrade, edgar, supplier_list
 from apple_supply_chain.storage import ObjectStore, build_store
@@ -270,7 +270,7 @@ def build_silver(settings: Settings, *, run_id: str = "") -> list[dict]:
     catalog = build_catalog(settings)
     results = []
     for name, table in tables.items():
-        info = write_table(catalog, f"silver.{name}", table, run_id=run_id)
+        info = write_table(catalog, f"{ns(settings, 'silver')}.{name}", table, run_id=run_id)
         log.info("silver.%s: %d rows (snapshot %s)", name, info["rows"], info["snapshot_id"])
         results.append(info)
     return results

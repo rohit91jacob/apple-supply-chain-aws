@@ -14,7 +14,7 @@ from datetime import date
 import duckdb
 
 from apple_supply_chain.config import Settings
-from apple_supply_chain.lakehouse.iceberg import build_catalog, list_tables, read_table
+from apple_supply_chain.lakehouse.iceberg import build_catalog, list_tables, ns, read_table
 from apple_supply_chain.warehouse import connect
 
 FIRST_RECONCILED_FY = 2013
@@ -44,10 +44,10 @@ def silver_connection(settings: Settings) -> duckdb.DuckDBPyConnection:
     catalog = build_catalog(settings)
     con = duckdb.connect()
     con.execute("create schema silver")
-    for ident in list_tables(catalog, "silver"):
-        arrow = read_table(catalog, ident)
-        con.register(f"tmp_{ident.split('.')[1]}", arrow)
-        con.execute(f"create table {ident} as select * from tmp_{ident.split('.')[1]}")
+    for ident in list_tables(catalog, ns(settings, "silver")):
+        name = ident.split(".", 1)[1]
+        con.register(f"tmp_{name}", read_table(catalog, ident))
+        con.execute(f"create table silver.{name} as select * from tmp_{name}")
     return con
 
 
