@@ -162,6 +162,16 @@ def extract_supplier_list(settings: Settings, store: ObjectStore, fetcher: Fetch
         payload = fetcher.get(ed.url)
         if not payload.startswith(b"%PDF"):
             raise FetchError(f"{ed.url} did not return a PDF")
+        if not archived:
+            # The live URL serves whatever Apple published last: refuse to file a newer list
+            # under this edition's label.
+            stated = supplier_list.stated_fiscal_year(payload)
+            if stated != ed.fiscal_year:
+                raise FetchError(
+                    f"{ed.url} serves the list for fiscal year {stated}, not {ed.fiscal_year} "
+                    f"(edition {ed.edition}). Add an Edition for the new list and pin edition "
+                    f"{ed.edition} to its Wayback snapshot in sources/supplier_list.py."
+                )
         s.add(
             raw.land(
                 store,

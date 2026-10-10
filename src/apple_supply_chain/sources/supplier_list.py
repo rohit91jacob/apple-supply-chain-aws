@@ -320,6 +320,25 @@ def supplier_key(name: str) -> str:
     return re.sub(r"\s+", " ", key).strip()
 
 
+_STATED_FY = re.compile(r"fiscal\s+year\s+(\d{4})", re.I)
+
+
+def stated_fiscal_year(pdf_bytes: bytes) -> int | None:
+    """The fiscal year an FY-era list says it covers, or None if it states none (or several).
+
+    Every edition from 2019 on prints "fiscal year YYYY" on its first or last page. The live
+    URL always serves the newest list, so this is how a new edition is told apart from the
+    configured one.
+    """
+    import pdfplumber  # noqa: PLC0415 - heavy import, only needed here
+
+    with pdfplumber.open(io.BytesIO(pdf_bytes)) as pdf:
+        pages = pdf.pages[:2] + pdf.pages[-1:]
+        text = " ".join(page.extract_text() or "" for page in pages)
+    years = {int(y) for y in _STATED_FY.findall(text)}
+    return years.pop() if len(years) == 1 else None
+
+
 def parse_pdf(pdf_bytes: bytes, edition: Edition) -> list[dict]:
     """Parse one edition into rows (supplier, location text, country, site_count)."""
     import pdfplumber  # noqa: PLC0415 - heavy import, only needed here

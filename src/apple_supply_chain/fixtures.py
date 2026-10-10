@@ -206,6 +206,11 @@ def supplier_list_pdf(edition: Edition) -> bytes:
                 items.append(("text", 166, top, 9, name))
             items += [("text", 550, top, 9, regions), ("text", 940, top, 9, country)]
             top += 30
+    if edition.spend_year.startswith("FY"):
+        # Real FY-era editions state the year they cover; extract checks it on the live URL.
+        items.append(
+            ("text", 166, top + 20, 8, f"This list reflects fiscal year {edition.fiscal_year}")
+        )
     return make_pdf([items], width=1224, height=max(792, top + 60))
 
 

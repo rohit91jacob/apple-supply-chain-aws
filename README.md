@@ -167,11 +167,13 @@ for the financials, against Apple's own statements; and a deployment must fit a 
   deployment would add the `athena` group to the image, set `DBT_TARGET=athena` and run the gold
   gates and the graph input as Athena queries against the Glue databases (`asc_intermediate`,
   `asc_marts`, `asc_gold`).
-* **Recognise a new Supplier List edition.** The current list comes from Apple's current-edition
-  URL and lands as edition 2024 (`sources/supplier_list.py`). When Apple replaces it, the new PDF
-  moves the 2024 pointer and is parsed as the FY2023 list, and if its layout is unchanged no check
-  fails; a deployment would read the fiscal year printed in the PDF and fail the silver gate on an
-  edition it does not know.
+* **Register new Supplier List editions automatically.** The current list comes from Apple's
+  current-edition URL and is configured as edition 2024 (`sources/supplier_list.py`). The extract
+  reads the fiscal year printed in that PDF and stops with an error naming the new year when it no
+  longer matches (`stated_fiscal_year` in `sources/supplier_list.py`, checked in `extract.py`), so a
+  new list is never filed under the old label; adding it is still a hand edit (a new `Edition`, and
+  the previous one pinned to its Wayback snapshot). A deployment would register the new edition
+  itself.
 * **Keyed Comtrade access.** The keyless preview caps each call at 500 rows and one period and
   throttles per IP (`docs/runbook.md`), and trade shares are relative to 11 selected countries
   (see Limitations). A subscription key, held in SSM like the Census key (`lambdas/handlers.py`),
@@ -266,7 +268,7 @@ local `.env` if present.
 | Compute | handler functions called in-process | 9 Lambda functions from one arm64 container image (ECR, immutable tags, scan on push), DLQs, reserved concurrency 2 |
 | Raw / curated storage | directories under `$ASC_DATA_DIR/lake`; moto S3; LocalStack S3 | S3 (SSE-KMS, versioning, TLS-only, access logs, lifecycle) |
 | Table format + catalog | Iceberg + pyiceberg SQLite catalog; Iceberg on moto/LocalStack S3 tested | Iceberg in S3, AWS Glue Data Catalog (`asc_silver`, `asc_gold`, dbt schemas), catalog encryption |
-| SQL / dbt | DuckDB (dbt-duckdb) | dbt-duckdb inside the BuildMarts Lambda (warehouse file handed between functions via S3), or `DBT_TARGET=athena` with Athena engine v3 (workgroup with 1 GiB scan cutoff) |
+| SQL / dbt | DuckDB (dbt-duckdb) | dbt-duckdb inside the BuildMarts Lambda (warehouse file handed between functions via S3). `DBT_TARGET=athena` with Athena engine v3 (workgroup with 1 GiB scan cutoff) needs the `athena` dependency group added to the image first |
 | Graph | networkx | Amazon Neptune Serverless (optional, off by default) loaded from the Gremlin CSVs |
 | Alerts | CLI exit codes, GitHub issue from `refresh.yml` | EventBridge rule on FAILED/TIMED_OUT/ABORTED → SNS (KMS) |
 | Cost control | - | AWS Budgets (US$10/month default, tag-scoped) |

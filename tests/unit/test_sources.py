@@ -3,15 +3,18 @@
 from __future__ import annotations
 
 import json
+from dataclasses import replace
 from pathlib import Path
 
 import pytest
 
 from apple_supply_chain.countries import resolve, split_trailing_country
+from apple_supply_chain.extract import extract_supplier_list
 from apple_supply_chain.fetch import FixtureFetcher, fixture_relpath
 from apple_supply_chain.fixtures import comtrade_response, make_pdf, supplier_list_pdf
 from apple_supply_chain.http import FetchError
 from apple_supply_chain.sources import census, comtrade, edgar, supplier_list
+from apple_supply_chain.storage import LocalObjectStore
 
 HTTP = Path(__file__).resolve().parents[1] / "fixtures" / "http"
 
@@ -273,3 +276,35 @@ def test_comtrade_canonical_ignores_elapsed_time():
     a = b'{"elapsedTime": "0.25 secs", "count": 0, "data": [], "error": ""}'
     b = b'{"error": "", "data": [], "count": 0, "elapsedTime": "1.03 secs"}'
     assert comtrade.canonical(a) == comtrade.canonical(b)
+
+
+def test_stated_fiscal_year_reads_fy_editions_only():
+    live = supplier_list.EDITIONS[-1]
+    assert supplier_list.stated_fiscal_year(supplier_list_pdf(live)) == live.fiscal_year
+    address = next(e for e in supplier_list.EDITIONS if e.layout == "address")
+    assert supplier_list.stated_fiscal_year(supplier_list_pdf(address)) is None
+
+
+class _OneUrlFetcher:
+    """Serves a fixed body for the live Supplier List URL; anything else is a test error."""
+
+    def __init__(self, url: str, body: bytes) -> None:
+        self.url, self.body = url, body
+
+    def get(self, url: str, params: dict | None = None) -> bytes:
+        assert url == self.url, url
+        return self.body
+
+
+def test_live_supplier_list_with_a_newer_fiscal_year_is_refused(fixture_settings, monkeypatch):
+    live = supplier_list.EDITIONS[-1]
+    monkeypatch.setattr(supplier_list, "EDITIONS", (live,))
+    newer = supplier_list_pdf(replace(live, fiscal_year=live.fiscal_year + 1))
+    store = LocalObjectStore(fixture_settings.data_dir / "lake")
+    with pytest.raises(FetchError, match=f"fiscal year {live.fiscal_year + 1}, not"):
+        extract_supplier_list(fixture_settings, store, _OneUrlFetcher(live.url, newer))
+    assert not list(store.list_keys(fixture_settings.raw_bucket)), "nothing may be landed"
+    # The configured edition itself still lands.
+    current = supplier_list_pdf(live)
+    summary = extract_supplier_list(fixture_settings, store, _OneUrlFetcher(live.url, current))
+    assert summary
