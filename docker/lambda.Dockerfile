@@ -1,7 +1,7 @@
 # One image for every pipeline Lambda; Terraform selects the handler per function via
 # image_config.command (e.g. apple_supply_chain.lambdas.handlers.build_silver).
 # Built (not pushed) in CI as a smoke test; pushed to ECR only by deploy.yml via OIDC.
-FROM public.ecr.aws/lambda/python:3.12-arm64
+FROM public.ecr.aws/lambda/python:3.14-arm64
 
 COPY --from=ghcr.io/astral-sh/uv:0.10.2 /uv /usr/local/bin/uv
 
