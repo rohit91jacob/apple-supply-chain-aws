@@ -155,22 +155,18 @@ def extract_supplier_list(settings: Settings, store: ObjectStore, fetcher: Fetch
     bucket = settings.raw_bucket
     for ed in supplier_list.EDITIONS:
         item = str(ed.edition)
-        archived = "web.archive.org" in ed.url
-        if archived and _pointer_exists(store, bucket, "apple_supplier_list", "pdf", item):
-            s.add("cached")  # Wayback snapshots are immutable
+        if _pointer_exists(store, bucket, "apple_supplier_list", "pdf", item):
+            s.add("cached")  # every edition URL is a fixed file (Wayback snapshot or dated path)
             continue
         payload = fetcher.get(ed.url)
         if not payload.startswith(b"%PDF"):
             raise FetchError(f"{ed.url} did not return a PDF")
-        if not archived:
-            # The live URL serves whatever Apple published last: refuse to file a newer list
-            # under this edition's label.
+        if ed.spend_year.startswith("FY"):
             stated = supplier_list.stated_fiscal_year(payload)
             if stated != ed.fiscal_year:
                 raise FetchError(
-                    f"{ed.url} serves the list for fiscal year {stated}, not {ed.fiscal_year} "
-                    f"(edition {ed.edition}). Add an Edition for the new list and pin edition "
-                    f"{ed.edition} to its Wayback snapshot in sources/supplier_list.py."
+                    f"{ed.url} is the list for fiscal year {stated}, not {ed.fiscal_year} "
+                    f"(edition {ed.edition}): fix its URL in sources/supplier_list.py."
                 )
         s.add(
             raw.land(
@@ -185,7 +181,36 @@ def extract_supplier_list(settings: Settings, store: ObjectStore, fetcher: Fetch
                 content_type="application/pdf",
             ).status
         )
-    return s.as_dict()
+    out = s.as_dict()
+    out["newer_edition"] = check_for_newer_supplier_list(fetcher)
+    return out
+
+
+def check_for_newer_supplier_list(fetcher: Fetcher) -> int | None:
+    """The fiscal year of a list newer than the configured editions, if Apple has published one.
+
+    Only a warning: the configured editions are fixed files, so a new list can never be filed
+    under an old label; adding it is a new ``Edition`` in ``sources/supplier_list.py``. The page
+    may refuse automated clients, in which case the check is skipped.
+    """
+    url = supplier_list.CURRENT_EDITION_URL
+    try:
+        payload = fetcher.get(url)
+    except FetchError as exc:
+        log.warning("could not check %s for a newer Supplier List: %s", url, str(exc)[:160])
+        return None
+    if not payload.startswith(b"%PDF"):
+        log.warning("could not check %s for a newer Supplier List: not a PDF", url)
+        return None
+    stated = supplier_list.stated_fiscal_year(payload)
+    latest = max(ed.fiscal_year for ed in supplier_list.EDITIONS)
+    if stated is not None and stated > latest:
+        log.warning(
+            "Apple has published a newer Supplier List (fiscal year %s); add an Edition for it",
+            stated,
+        )
+        return stated
+    return None
 
 
 # ------------------------------------------------------------------------ Comtrade

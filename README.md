@@ -167,13 +167,13 @@ for the financials, against Apple's own statements; and a deployment must fit a 
   deployment would add the `athena` group to the image, set `DBT_TARGET=athena` and run the gold
   gates and the graph input as Athena queries against the Glue databases (`asc_intermediate`,
   `asc_marts`, `asc_gold`).
-* **Register new Supplier List editions automatically.** The current list comes from Apple's
-  current-edition URL and is configured as edition 2024 (`sources/supplier_list.py`). The extract
-  reads the fiscal year printed in that PDF and stops with an error naming the new year when it no
-  longer matches (`stated_fiscal_year` in `sources/supplier_list.py`, checked in `extract.py`), so a
-  new list is never filed under the old label; adding it is still a hand edit (a new `Edition`, and
-  the previous one pinned to its Wayback snapshot). A deployment would register the new edition
-  itself.
+* **Register new Supplier List editions automatically.** Every edition is a fixed file: the
+  older ones Wayback snapshots, the 2024 one the dated file that Apple's current-edition page
+  redirects to (`sources/supplier_list.py`). The extract checks each FY-era PDF's printed fiscal
+  year (`stated_fiscal_year`), then fetches the current-edition page only to look for a newer
+  list, and logs a warning when it finds one; that page refuses automated clients from some
+  networks (a bot challenge to CI runners), in which case the check is skipped. Adding a new list
+  is a hand edit (a new `Edition`); a deployment would register it itself.
 * **Keyed Comtrade access.** The keyless preview caps each call at 500 rows and one period and
   throttles per IP (`docs/runbook.md`), and trade shares are relative to 11 selected countries
   (see Limitations). A subscription key, held in SSM like the Census key (`lambdas/handlers.py`),
@@ -199,7 +199,7 @@ for the financials, against Apple's own statements; and a deployment must fit a 
 | Source | What is used | Licence / terms | Refresh cadence | Known gaps |
 |---|---|---|---|---|
 | [SEC EDGAR APIs](https://www.sec.gov/search-filings/edgar-application-programming-interfaces) - `companyfacts`, `submissions`, 10-K folders | 13 us-gaap concepts (all 10-K/10-Q facts), dimensional net sales from every 10-K instance since FY2009, purchase-obligation text | Public information, may be redistributed ([SEC policy](https://www.sec.gov/privacy)); User-Agent required | New 10-Q/10-K about every three months (Apple's FY ends late September; 10-K ~early November) | Segment/product mixes before FY2013 use other category schemes and are excluded from the mix mart; manufacturing purchase obligations missing for FY2009 |
-| Apple Supplier List ([current edition](https://www.supplychainreports.apple/Apple-Supplier-List)) | Supplier names, countries, facility addresses (2014-2019) or provinces/states (2021+) | © Apple - parsed at runtime, never committed | Annually (spring) | 2016 and 2020 editions not retrievable (not archived under the known URLs); the newest edition Apple links is still the 2024 (FY2023) list; "sites" changes meaning between layouts (facilities vs provinces) |
+| Apple Supplier List ([current edition](https://www.supplychainreports.apple/Apple-Supplier-List)) | Supplier names, countries, facility addresses (2014-2019) or provinces/states (2021+) | © Apple - parsed at runtime, never committed | Annually (spring) | 2016 and 2020 editions not retrievable (not archived under the known URLs); the newest edition Apple links is still the 2024 (FY2023) list, fetched from the dated file its current-edition page redirects to, because that page serves a bot challenge to CI runners; "sites" changes meaning between layouts (facilities vs provinces) |
 | [UN Comtrade](https://comtradeplus.un.org/) public preview | Annual exports to World for 11 reporters, and US imports by partner, HS 8517 / 8471 / 851712 / 851713 / 851714 | © UN; limited derived figures may be published, raw data not redistributed | Reporters submit through the year; annual data revised | Preview: 1 period and ≤500 rows per call; Viet Nam 2024 exports not yet reported at build time; shares are of the 11 selected countries, not of world trade |
 | US Census international trade API (optional) | US general imports by country, HS4 | Public domain; free API key required | Monthly | Skipped unless `CENSUS_API_KEY` is set (it was not set for the runs reported here) |
 

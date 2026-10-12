@@ -23,7 +23,7 @@ from apple_supply_chain.config import DEFAULT_TRADE_COMMODITIES, DEFAULT_TRADE_R
 from apple_supply_chain.countries import by_comtrade_code
 from apple_supply_chain.fetch import fixture_relpath
 from apple_supply_chain.sources import comtrade
-from apple_supply_chain.sources.supplier_list import EDITIONS, Edition
+from apple_supply_chain.sources.supplier_list import CURRENT_EDITION_URL, EDITIONS, Edition
 
 SEED = 20261009
 FIXTURE_TRADE_YEARS = (2022, 2023, 2024)
@@ -168,6 +168,7 @@ def supplier_list_pdf(edition: Edition) -> bytes:
         )
         items.append(("text", 48, top + 40, 9, "Sample Fabless Design Inc."))
         items.append(("text", 250, top + 40, 9, "1 Example Way, Austin, Texas, USA"))
+        items += _fiscal_year_note(edition, 48, top + 60)
         return make_pdf([items], width=792, height=max(612, top + 80))
     if edition.layout == "locations_table":
         rows = [
@@ -193,6 +194,7 @@ def supplier_list_pdf(edition: Edition) -> bytes:
             items.append(("line", xs[0], top, xs[-1], top))
         items.append(("line", xs[0], 100, xs[0], top))
         items += [("line", x, 100, x, top) for x in xs[1:]]
+        items += _fiscal_year_note(edition, 76, top + 20)
         return make_pdf([items], width=612, height=max(792, top + 60))
     items = [
         ("text", 36, 40, 14, title),
@@ -206,12 +208,15 @@ def supplier_list_pdf(edition: Edition) -> bytes:
                 items.append(("text", 166, top, 9, name))
             items += [("text", 550, top, 9, regions), ("text", 940, top, 9, country)]
             top += 30
-    if edition.spend_year.startswith("FY"):
-        # Real FY-era editions state the year they cover; extract checks it on the live URL.
-        items.append(
-            ("text", 166, top + 20, 8, f"This list reflects fiscal year {edition.fiscal_year}")
-        )
+    items += _fiscal_year_note(edition, 166, top + 20)
     return make_pdf([items], width=1224, height=max(792, top + 60))
+
+
+def _fiscal_year_note(edition: Edition, x: float, top: float) -> list[tuple]:
+    """Real FY-era editions state the fiscal year they cover; the extract checks it."""
+    if not edition.spend_year.startswith("FY"):
+        return []
+    return [("text", x, top, 8, f"This list reflects fiscal year {edition.fiscal_year}")]
 
 
 # --------------------------------------------------------------------- Comtrade
@@ -292,6 +297,11 @@ def build_fixture_tree(out_dir: Path, committed_dir: Path) -> dict:
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_bytes(supplier_list_pdf(ed))
         written += 1
+    # The current-edition page serves the newest configured edition.
+    path = http / fixture_relpath(CURRENT_EDITION_URL)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_bytes(supplier_list_pdf(EDITIONS[-1]))
+    written += 1
     for dataset in ("exports", "us_imports"):
         for year in FIXTURE_TRADE_YEARS:
             params = comtrade.request_params(

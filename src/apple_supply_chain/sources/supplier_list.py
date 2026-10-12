@@ -111,10 +111,15 @@ EDITIONS: tuple[Edition, ...] = (
         "FY2023",
         2023,
         "locations",
-        "https://www.supplychainreports.apple/Apple-Supplier-List",
+        # The dated file the current-edition page redirects to (byte-identical to it).
+        "https://s203.q4cdn.com/367071867/files/doc_downloads/2024/04/Apple-Supplier-List.pdf",
         "https://www.supplychainreports.apple/Apple-Supplier-List",
     ),
 )
+
+# Always redirects to the newest list. It is only checked for a newer edition, never landed,
+# and it may refuse automated clients (a bot challenge to CI runners).
+CURRENT_EDITION_URL = "https://www.supplychainreports.apple/Apple-Supplier-List"
 
 _HEADER_FIRST = {"supplier"}
 _SECOND_COLUMN = {"address", "primary", "manufacturing", "facility"}

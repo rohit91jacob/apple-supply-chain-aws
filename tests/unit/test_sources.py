@@ -285,26 +285,57 @@ def test_stated_fiscal_year_reads_fy_editions_only():
     assert supplier_list.stated_fiscal_year(supplier_list_pdf(address)) is None
 
 
-class _OneUrlFetcher:
-    """Serves a fixed body for the live Supplier List URL; anything else is a test error."""
+class _UrlFetcher:
+    """Serves fixed bodies by URL; any other URL is refused like a bot challenge."""
 
-    def __init__(self, url: str, body: bytes) -> None:
-        self.url, self.body = url, body
+    def __init__(self, bodies: dict[str, bytes]) -> None:
+        self.bodies = bodies
 
     def get(self, url: str, params: dict | None = None) -> bytes:
-        assert url == self.url, url
-        return self.body
+        if url not in self.bodies:
+            raise FetchError(f"GET {url} failed: HTTP 403")
+        return self.bodies[url]
 
 
-def test_live_supplier_list_with_a_newer_fiscal_year_is_refused(fixture_settings, monkeypatch):
+def _only_live_edition(monkeypatch):
     live = supplier_list.EDITIONS[-1]
     monkeypatch.setattr(supplier_list, "EDITIONS", (live,))
+    return live
+
+
+def _landed_pdfs(settings, store) -> list[str]:
+    return [k for k in store.list_keys(settings.raw_bucket) if k.endswith(".pdf")]
+
+
+def test_a_newer_list_on_the_current_edition_page_is_reported_not_landed(
+    fixture_settings, monkeypatch
+):
+    live = _only_live_edition(monkeypatch)
+    newer = supplier_list_pdf(replace(live, fiscal_year=live.fiscal_year + 1))
+    store = LocalObjectStore(fixture_settings.data_dir / "lake")
+    bodies = {live.url: supplier_list_pdf(live), supplier_list.CURRENT_EDITION_URL: newer}
+    summary = extract_supplier_list(fixture_settings, store, _UrlFetcher(bodies))
+    assert summary["newer_edition"] == live.fiscal_year + 1
+    assert summary["new"] == 1
+    assert len(_landed_pdfs(fixture_settings, store)) == 1
+
+
+def test_a_refused_current_edition_page_does_not_fail_the_extract(fixture_settings, monkeypatch):
+    live = _only_live_edition(monkeypatch)
+    store = LocalObjectStore(fixture_settings.data_dir / "lake")
+    fetcher = _UrlFetcher({live.url: supplier_list_pdf(live)})
+    summary = extract_supplier_list(fixture_settings, store, fetcher)
+    assert summary["newer_edition"] is None
+    assert summary["new"] == 1
+    # Landed editions are fixed files, so a rerun fetches nothing.
+    again = extract_supplier_list(fixture_settings, store, _UrlFetcher({}))
+    assert again["cached"] == 1
+
+
+def test_an_edition_url_serving_another_fiscal_year_is_refused(fixture_settings, monkeypatch):
+    live = _only_live_edition(monkeypatch)
     newer = supplier_list_pdf(replace(live, fiscal_year=live.fiscal_year + 1))
     store = LocalObjectStore(fixture_settings.data_dir / "lake")
     with pytest.raises(FetchError, match=f"fiscal year {live.fiscal_year + 1}, not"):
-        extract_supplier_list(fixture_settings, store, _OneUrlFetcher(live.url, newer))
-    assert not list(store.list_keys(fixture_settings.raw_bucket)), "nothing may be landed"
-    # The configured edition itself still lands.
-    current = supplier_list_pdf(live)
-    summary = extract_supplier_list(fixture_settings, store, _OneUrlFetcher(live.url, current))
-    assert summary
+        extract_supplier_list(fixture_settings, store, _UrlFetcher({live.url: newer}))
+    assert not _landed_pdfs(fixture_settings, store), "nothing may be landed"
